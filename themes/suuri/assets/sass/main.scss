@@ -1,0 +1,32 @@
+$xs: 374px;
+$sm: 576px;
+$md: 768px;
+$xl: 1200px;
+
+/* mqはこの順で記述する。後ろが最後に有効になる */
+$breakpoints: (
+  "xs": "screen and (min-width: #{$xs})",
+  "sm": "screen and (min-width: #{$sm})",
+  "md": "screen and (min-width: #{$md})",
+  "xl": "screen and (min-width: #{$xl})",
+);
+
+@mixin mq($size) {
+  @media #{map-get($breakpoints, $size)} {
+    @content;
+  }
+}
+
+@import "_reset"; // reset style
+@import "_content"; // common css
+
+/* toppage style */
+#toppage {
+  @import "component/_toppage";
+}
+
+/* page style */
+.suuri {
+  margin-bottom: 2em;
+  @import "component/_suuri";
+}

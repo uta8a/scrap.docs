@@ -1,0 +1,12 @@
+baseURL = 'https://scrap.docs.uta8a.net/'
+languageCode = 'ja'
+defaultContentLanguage = 'ja'
+title = '数学/アルゴリズム/暗号 のメモ'
+theme = 'suuri'
+
+[markup.goldmark.renderer]
+hardWraps = true # 改行でbrを入れる
+unsafe = true # Markdown中のHTMLタグをrender
+
+[markup.highlight]
+noClasses = false # disable injecting style for syntax highlight

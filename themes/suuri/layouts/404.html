@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="{{- site.Language.Lang -}}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <!-- css -->
+    {{ $style := resources.Get "sass/main.scss" | toCSS | minify | fingerprint
+    }}
+    <link href="{{ $style.RelPermalink }}" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- render `content/_index.md` -->
+    <main id="content">
+      404 - お探しの記事は見つかりませんでした。 <a href="/">トップページに戻る</a>
+    </main>
+  </body>
+</html>
