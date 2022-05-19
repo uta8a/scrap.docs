@@ -26,6 +26,16 @@ changelog:
 
 僕のやり方: VMware Ubuntu 20.04 上で、 `dist/` 以下のファイルを触る方針
 
+**話題**
+
+- 過去問は初心者向けで常設、もしくは手元で動かせる過去に開催されていたCTFが良い。基本新しいものからやるべき
+  - 初心者に良さそうなやつ
+  - [wanictf 2021 (github)](https://github.com/wani-hackase/wanictf2021-writeup)
+  - [SECCON Beginners 2021 (github)](https://github.com/SECCON/Beginners_CTF_2021)
+  - [cakeCTF 2021 (github)](https://github.com/theoremoon/cakectf-2021-public)
+  - [picoCTF](https://picoctf.org/)
+  - [angstromCTF 2022](https://2022.angstromctf.com/)
+
 ### 3章
 
 **一言まとめ**: Dockerの使い方 ここは見返せばいい。socatとか
