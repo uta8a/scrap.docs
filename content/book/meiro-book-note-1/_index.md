@@ -6,22 +6,81 @@ draft: false
 changelog:
   - summary: 見出し作成
     date: 2022-05-19T17:15:24+09:00
+  - summary: 6.4終わりまでやったのでメモ
+    date: 2022-05-19T17:50:20+09:00
 ---
 
 # 詳解セキュリティコンテスト輪読会資料#1
 
 ## 概要
 
+### 1章
 
+**一言まとめ**: CTFとはなに？概要説明
 
-## 詳細
+### 2章
 
-## メモ
+**一言まとめ**: Vagrantfileで環境構築できましたか？環境構築できていたらOK(おそらく環境構築自体はisolatedであればいいはず。VMwareでやった)
 
-## 関連する問題
+コメント: 参考リンクとして、 [公式ページ](https://ctfbook.github.io/2nd/) と [githubのリンク](https://github.com/ctfbook/2nd) を見ておけばよさそう。演習のファイルはgithubの `dist/` 以下にある。
 
-## 参考文献
+僕のやり方: VMware Ubuntu 20.04 上で、 `dist/` 以下のファイルを触る方針
 
-## 関連項目
+### 3章
 
-## 外部リンク
+**一言まとめ**: Dockerの使い方 ここは見返せばいい。socatとか
+
+**話題**
+
+- 暗号用にz3, sage, pycryptodome, pythonの最新が入ったdevcontainer環境が欲しいですね
+
+### 4章
+
+**一言まとめ**: Pythonの使い方 これも後で見返せばいいパターン
+
+知らなかったこと
+ 
+```shell
+$ python -q
+# ごちゃごちゃバージョンなどのログが出ることなくスッとプロンプトが出てくる
+```
+
+### 5章
+
+**一言まとめ**: CTFのweb問の一般構造
+
+**話題**
+
+- これweb問の構造全パターン網羅するように作問していくと力がつくと思う。作問するときに一般構造を頭に入れながらやりたい。
+
+### 6章
+
+こっから本番
+
+Todoとして調べておきたいことはNotionにメモした。
+
+**確認事項**
+
+手を動かすポイント(ここでやった人いるか & 詰まった人いるか確認)
+
+- [ ] p.56-59 html,css (>省略)
+- [ ] p.60-69 js,XML (>省略)
+- [ ] p.70 コード6-8 request-inspect-app.py [github link](https://github.com/ctfbook/2nd/blob/main/dist/files/web/02_basics/request-inspect-app.py) (>やった)
+- [ ] p.79 コード6-9 xmlhttprequest.js (>やった)
+- [ ] p.80-81 コード6-10~6-16 python requestの使い方 (>10,13のみやった)
+- [ ] p.86 コード6-17 nginx (>やる予定)
+- [ ] p.88 コード6-18 webapp (>やった)
+
+**話題**
+
+- p.51 Cookieによるステート管理: Cookieは廃止される？FLOCの話出す
+- p.51 Cookieによるステート管理: CookieとHTTP認証(Authorization)の違い
+- p.53 HTTPとHTTPS: パケットキャプチャしたことある？TLS周りだとTLS CVE-2020-13777 Challengeをいつか理解したい
+  - [求む！TLS1.3の再接続を完全に理解した方(Challenge CVE-2020-13777)](https://jovi0608.hatenablog.com/entry/2020/06/13/104905)
+  - [解答者のrepo](https://github.com/prprhyt/PoC_TLS1_3_CVE-2020-13777)
+  - [GnuTLSの脆弱性でTLS1.3の再接続を理解する(Challenge CVE-2020-13777)](https://jovi0608.hatenablog.com/entry/2020/07/03/131719)
+  - この本がTLS/SSL理解によいらしい(積んでる)が、新版が出る噂があるので新版発売を待ってもいいかも [プロフェッショナルSSL/TLS](https://www.lambdanote.com/products/tls)
+- p.73 devtoolsのコンソール: コンソールのjsデバッガ使ったことないので調べると、難読化されたjsのgame cheat問で使える時がありそう？
+  - [kusuwadaさんのwriteup](https://tech.kusuwada.com/entry/2020/04/05/132308#section1) ちょっと近いけど、wasm関連ならメモリチートになってjsのbreakpointとか使わないかも
+  - [はまやんさんのまとめ](https://blog.hamayanhamayan.com/entry/2021/12/22/000156) が体系的でよい
+- p.88 コード6-18のwebappが動かないので動くようにした
