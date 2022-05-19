@@ -68,8 +68,10 @@ Todoとして調べておきたいことはNotionにメモした。
 - [ ] p.70 コード6-8 request-inspect-app.py [github link](https://github.com/ctfbook/2nd/blob/main/dist/files/web/02_basics/request-inspect-app.py) (>やった)
 - [ ] p.79 コード6-9 xmlhttprequest.js (>やった)
 - [ ] p.80-81 コード6-10~6-16 python requestの使い方 (>10,13のみやった)
-- [ ] p.86 コード6-17 nginx (>やる予定)
+- [ ] p.86 コード6-17 nginx (>省略)
 - [ ] p.88 コード6-18 webapp (>やった)
+- [ ] p.93-96 Burp Intercept/Repeater (>やった [video link 1](https://drive.google.com/file/d/1NQvetUmg3WxDFRAVBro6ZTRbi2y6INFL/view?usp=sharing) / [video link 2](https://drive.google.com/file/d/1dkgJUOvK7n3PfpfBgZ4Xoj4A4t9g8heL/view?usp=sharing))
+- [ ] 
 
 **話題**
 
@@ -84,3 +86,6 @@ Todoとして調べておきたいことはNotionにメモした。
   - [kusuwadaさんのwriteup](https://tech.kusuwada.com/entry/2020/04/05/132308#section1) ちょっと近いけど、wasm関連ならメモリチートになってjsのbreakpointとか使わないかも
   - [はまやんさんのまとめ](https://blog.hamayanhamayan.com/entry/2021/12/22/000156) が体系的でよい
 - p.88 コード6-18のwebappが動かないので動くようにした
+  - これは割と些末な話なのでskipしていいかも
+
+
