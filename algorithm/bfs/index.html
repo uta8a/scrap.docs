@@ -1,0 +1,83 @@
+<!doctype html><html lang=ja><head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<link rel=stylesheet href=/sass/main.min.6b310111c019be6dd09332707e7917cd0f390efac00d80d7beb9b9407a671740.css>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css integrity=sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB crossorigin=anonymous>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js integrity=sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous onload=renderMathInElement(document.body)></script>
+<script defer>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script>
+<script defer src=/js/prism.min.js></script>
+<link rel=stylesheet href=/css/prism.min.css>
+</head>
+<body>
+<main id=content>
+<p class=category>
+カテゴリー: <a href=/algorithm>algorithm</a>
+</p>
+<article class=suuri><h1 id=bfs>BFS</h1>
+<h2 id=概要>概要</h2>
+<p>BFS(幅優先探索)とは、グラフ探索アルゴリズムの一つで、探索開始地点に近い距離の頂点から順にQueueに詰めて訪問していくアルゴリズムである。</p>
+<h2 id=詳細>詳細</h2>
+<p>疑似コードを以下に示す。</p>
+<pre tabindex=0><code class=language-clike data-lang=clike># Type Notation
+Vertex
+Edge
+Graph = (Vertex, Edge)
+Queue
+</code></pre><pre tabindex=0><code class=language-clike data-lang=clike>BFS(g: Graph, source: Vertex):
+  Initialize queue: Queue # 次に訪問する頂点を決定するキュー。sourceのみ入れておく。
+  while queue is not empty:
+    v: Vertex = dequeue from queue # 最初の要素をvに詰める
+    for v' in connected with g[v]:
+      if v' is not visited:
+        # 新規に訪問する頂点に対し処理を行う
+        enqueue v' to queue # queueに新規に訪問する頂点を詰める
+</code></pre><p>計算量は $O(\vert V \vert + \vert E \vert)$ である。<br>
+なぜなら、各頂点はキューに高々一度enqueue/dequeueされるので $O(\vert V \vert)$, 各辺は一度だけ探索されるので $O(\vert E \vert)$ となるからである。</p>
+<h2 id=メモ>メモ</h2>
+<p>DFS(深さ優先探索)とセットで語られることが多い。両者の違いは <a href=#ref-1>文献1</a> の 1-5. DFS と BFS との比較 が詳しい。</p>
+<h2 id=関連する問題>関連する問題</h2>
+<ul>
+<li>第三回 アルゴリズム実技検定 G - グリッド金移動: <a href=https://atcoder.jp/contests/past202005-open/tasks/past202005_g>問題</a> / <a href=https://math.docs.uta8a.net/writeup/grid-gold/>writeup</a></li>
+</ul>
+<h2 id=参考文献>参考文献</h2>
+<ul>
+<li>文献1: <a name=ref-1></a> drken, BFS (幅優先探索) 超入門！ 〜 キューを鮮やかに使いこなす 〜, qiita
+<ul>
+<li>1-2. BFS の実装 を参考に疑似コードを書いた</li>
+<li>1-4. BFS の計算量 を参考に計算量を導出した</li>
+</ul>
+</li>
+</ul>
+<h2 id=関連項目>関連項目</h2>
+<ul>
+<li>01-bfs</li>
+<li>dfs</li>
+</ul>
+<h2 id=外部リンク>外部リンク</h2>
+<ul>
+<li>文献1: <a href=https://qiita.com/drken/items/996d80bcae64649a6580>drken, BFS (幅優先探索) 超入門！ 〜 キューを鮮やかに使いこなす 〜, qiita</a></li>
+</ul>
+<h3 id=todo>TODO</h3>
+<ul>
+<li>アルゴリズムイントロダクションを読んでおく
+<ul>
+<li>探索が全て網羅することの証明を追加できるかも</li>
+</ul>
+</li>
+</ul>
+</article>
+<footer>
+<p class=license>
+This document is licensed under
+<a href=https://creativecommons.org/licenses/by/4.0/ target=_blank rel="noopener noreferrer">CC-BY-4.0</a>
+</p>
+<p class=repository>
+Link to
+<a href=https://github.com/uta8a/math-roadmap target=_blank rel="noopener noreferrer">GitHub Repository</a>
+</p>
+</footer>
+</main>
+</body>
+</html>
