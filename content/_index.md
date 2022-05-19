@@ -1,20 +1,14 @@
 ---
-title: 数理メモ
+title: 雑メモ
 description: |
-  ここにアルゴリズム/数学/暗号関連のドキュメントを置いています。
+  ちょっとしたメモや一時的に公開したい文書を置きます。URLは永続的ではない可能性が高いです。
 draft: false
 category:
-  - title: アルゴリズム
-    link: /algorithm
-  - title: 暗号
-    link: /cryptography
-  - title: 数学
-    link: /math
-  - title: 個別に解いた問題の解答
-    link: /writeup
+  - title: 本
+    link: /book
 changelog:
   - summary: トップページ作成
-    date: 2022-04-30T11:32:08+09:00
+    date: 2022-05-19T17:13:24+09:00
 ---
 
-# 数理メモ
+# 雑メモ
