@@ -1,0 +1,89 @@
+<!doctype html><html lang=ja><head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<link rel=stylesheet href=/sass/main.min.6b310111c019be6dd09332707e7917cd0f390efac00d80d7beb9b9407a671740.css>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css integrity=sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB crossorigin=anonymous>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js integrity=sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous onload=renderMathInElement(document.body)></script>
+<script defer>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script>
+<script defer src=/js/prism.min.js></script>
+<link rel=stylesheet href=/css/prism.min.css>
+</head>
+<body>
+<main id=content>
+<p class=category>
+カテゴリー: <a href=/book>book</a>
+</p>
+<article class=suuri><h1 id=詳解セキュリティコンテスト輪読会資料2>詳解セキュリティコンテスト輪読会資料#2</h1>
+<h2 id=概要>概要</h2>
+<h3 id=5章>5章</h3>
+<p><strong>一言まとめ</strong>: CTFのweb問の一般構造</p>
+<p><strong>話題</strong></p>
+<ul>
+<li>これweb問の構造全パターン網羅するように作問していくと力がつくと思う。作問するときに一般構造を頭に入れながらやりたい。</li>
+</ul>
+<h3 id=6章>6章</h3>
+<p>こっから本番</p>
+<p>Todoとして調べておきたいことはNotionにメモした。</p>
+<p><strong>確認事項</strong></p>
+<p>手を動かすポイント(ここでやった人いるか & 詰まった人いるか確認)</p>
+<ul>
+<li><input disabled type=checkbox> p.56-59 html,css (>省略)</li>
+<li><input disabled type=checkbox> p.60-69 js,XML (>省略)</li>
+<li><input disabled type=checkbox> p.70 コード6-8 request-inspect-app.py <a href=https://github.com/ctfbook/2nd/blob/main/dist/files/web/02_basics/request-inspect-app.py>github link</a> (>やった)</li>
+<li><input disabled type=checkbox> p.79 コード6-9 xmlhttprequest.js (>やった)</li>
+<li><input disabled type=checkbox> p.80-81 コード6-10~6-16 python requestの使い方 (>10,13のみやった)</li>
+<li><input disabled type=checkbox> p.86 コード6-17 nginx (>省略)</li>
+<li><input disabled type=checkbox> p.88 コード6-18 webapp (>やった)</li>
+<li><input disabled type=checkbox> p.93-96 Burp Intercept/Repeater (>やった <a href="https://drive.google.com/file/d/1NQvetUmg3WxDFRAVBro6ZTRbi2y6INFL/view?usp=sharing">video link 1</a> / <a href="https://drive.google.com/file/d/1dkgJUOvK7n3PfpfBgZ4Xoj4A4t9g8heL/view?usp=sharing">video link 2</a>)
+<ul>
+<li>Burpの導入は、Vagrantfileを見るとターミナルからできる。 <a href=https://github.com/ctfbook/2nd/blob/c364a010b936eb428c70e91b656965a9b2e95bec/dist/Vagrantfile#L73-L79>該当箇所</a></li>
+</ul>
+</li>
+<li><input disabled type=checkbox> p.97-101 Burp Intruder(>やった)</li>
+<li><input disabled type=checkbox> p.103-113 SQLの実習パート(>半分くらいやった)</li>
+</ul>
+<p><strong>話題</strong></p>
+<ul>
+<li>p.51 Cookieによるステート管理: Cookieは廃止される？FLOCの話出す</li>
+<li>p.51 Cookieによるステート管理: CookieとHTTP認証(Authorization)の違い</li>
+<li>p.53 HTTPとHTTPS: パケットキャプチャしたことある？TLS周りだとTLS CVE-2020-13777 Challengeをいつか理解したい
+<ul>
+<li><a href=https://jovi0608.hatenablog.com/entry/2020/06/13/104905>求む！TLS1.3の再接続を完全に理解した方(Challenge CVE-2020-13777)</a></li>
+<li><a href=https://github.com/prprhyt/PoC_TLS1_3_CVE-2020-13777>解答者のrepo</a></li>
+<li><a href=https://jovi0608.hatenablog.com/entry/2020/07/03/131719>GnuTLSの脆弱性でTLS1.3の再接続を理解する(Challenge CVE-2020-13777)</a></li>
+<li>この本がTLS/SSL理解によいらしい(積んでる)が、新版が出る噂があるので新版発売を待ってもいいかも <a href=https://www.lambdanote.com/products/tls>プロフェッショナルSSL/TLS</a></li>
+</ul>
+</li>
+<li>p.73 devtoolsのコンソール: コンソールのjsデバッガ使ったことないので調べると、難読化されたjsのgame cheat問で使える時がありそう？
+<ul>
+<li><a href=https://tech.kusuwada.com/entry/2020/04/05/132308#section1>kusuwadaさんのwriteup</a> ちょっと近いけど、wasm関連ならメモリチートになってjsのbreakpointとか使わないかも</li>
+<li><a href=https://blog.hamayanhamayan.com/entry/2021/12/22/000156>はまやんさんのまとめ</a> が体系的でよい</li>
+</ul>
+</li>
+<li>p.88 コード6-18のwebappが動かないので動くようにした
+<ul>
+<li>これは割と些末な話なのでskipしていいかも</li>
+</ul>
+</li>
+<li>p.90 Burp: <a href=https://portswigger.net/web-security>WebSecurity Academy</a> がいい学習リソースだよという紹介</li>
+<li>p.102 decoder: 単なるencode/decodeは <a href=https://gchq.github.io/CyberChef/>CyberChef</a> も便利。送信もセットで楽に行える点でBurpに強みがある。</li>
+<li>p.113 Webブラウザセキュリティ: <a href=https://www.lambdanote.com/products/wbs>Webブラウザセキュリティ ― Webアプリケーションの安全性を支える仕組みを整理する</a> が参考になりそう。</li>
+<li>p.113 Webブラウザセキュリティ: ちょっと外れる話題だけど、Shadow DOM Closedとchrome extensionの話題と、prototype pollutionによりclosedは回避できるのでDOMにセキュアな情報は置いてはいけないという話</li>
+</ul>
+<h2 id=メモ>メモ</h2>
+</article>
+<footer>
+<p class=license>
+This document is licensed under
+<a href=https://creativecommons.org/licenses/by/4.0/ target=_blank rel="noopener noreferrer">CC-BY-4.0</a>
+</p>
+<p class=repository>
+Link to
+<a href=https://github.com/uta8a/scrap.docs target=_blank rel="noopener noreferrer">GitHub Repository</a>
+</p>
+</footer>
+</main>
+</body>
+</html>
