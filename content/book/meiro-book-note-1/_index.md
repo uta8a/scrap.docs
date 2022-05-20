@@ -104,6 +104,7 @@ Todoとして調べておきたいことはNotionにメモした。
 - p.90 Burp: [WebSecurity Academy](https://portswigger.net/web-security) がいい学習リソースだよという紹介
 - p.102 decoder: 単なるencode/decodeは [CyberChef](https://gchq.github.io/CyberChef/) も便利。送信もセットで楽に行える点でBurpに強みがある。
 - p.113 Webブラウザセキュリティ: [Webブラウザセキュリティ ― Webアプリケーションの安全性を支える仕組みを整理する](https://www.lambdanote.com/products/wbs) が参考になりそう。
+- p.113 Webブラウザセキュリティ: ちょっと外れる話題だけど、Shadow DOM Closedとchrome extensionの話題と、prototype pollutionによりclosedは回避できるのでDOMにセキュアな情報は置いてはいけないという話
 
 ## メモ
 
