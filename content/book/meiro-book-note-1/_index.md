@@ -63,6 +63,7 @@ $ python -q
 
 - CTFホスティングしてみたい。軽く雑にやるならCTFdなのかな？
 - [SECCON Beginners 2022](https://www.seccon.jp/2022/seccon_beginners/content.html) 2022/6/4(土)14:00JST～2022/6/5(日)14:00JST がありますね！
+- [【CTF勉強会】魔女のお茶会 2022/春 【kurenaif】](https://youtu.be/vlh-CiesZ-8) みなさん見ましたか？楽しかったですね！
 - CTFプレイヤーと法律のパートは大事なので取り上げておきたい。参考になるリンク探しておきたいな
   - [Web開発者はもっと「安全なウェブサイトの作り方」を読むべき](https://blog.flatt.tech/entry/anzenna_website_no_tsukurikata#%E8%A8%BA%E6%96%AD%E8%A1%8C%E7%82%BA%E3%82%92%E8%A1%8C%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9) 結局他人のサービスに攻撃と判断される行為を働かないということが大事。
   - [不正アクセス禁止法改正Q&A (pdf)](https://www.npa.go.jp/cyber/legislation/pdf/6_QA.pdf) これまだ分かりやすい方
