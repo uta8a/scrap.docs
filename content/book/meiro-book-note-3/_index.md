@@ -2,7 +2,7 @@
 layout: book
 title: 詳解セキュリティコンテスト輪読会資料#3
 description: 輪読会第3回の資料
-draft: true
+draft: false
 changelog:
   - summary: 見出し作成
     date: 2022-05-29T05:56:53+09:00
@@ -13,6 +13,8 @@ changelog:
 ## 概要
 
 ### 6章
+
+**一言まとめ**: Webサーバ、Burp、データベース、CORSなどのブラウザセキュリティ
 
 #### 確認事項
 
