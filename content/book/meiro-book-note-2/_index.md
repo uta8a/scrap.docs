@@ -10,6 +10,8 @@ changelog:
     date: 2022-05-29T06:03:30+09:00
   - summary: ちょっと書き足した
     date: 2022-05-29T06:26:05+09:00
+  - summary: FLOCとToken認証書き足した
+    date: 2022-05-29T07:23:45+09:00
 ---
 
 # 詳解セキュリティコンテスト輪読会資料#2
@@ -48,7 +50,9 @@ Todoとして調べておきたいことはNotionにメモした。
 **話題**
 
 - p.51 Cookieによるステート管理: Cookieは廃止される？FLOCの話出す
+  - [FLOCについてちょっとメモしてきた](#ref-1)
 - p.51 Cookieによるステート管理: CookieとHTTP認証(Authorization)の違い
+  - [CookieとToken認証メモ](#ref-2)
 - p.53 HTTPとHTTPS: パケットキャプチャしたことある？TLS周りだとTLS CVE-2020-13777 Challengeをいつか理解したい
   - [求む！TLS1.3の再接続を完全に理解した方(Challenge CVE-2020-13777)](https://jovi0608.hatenablog.com/entry/2020/06/13/104905)
   - [解答者のrepo](https://github.com/prprhyt/PoC_TLS1_3_CVE-2020-13777)
@@ -64,3 +68,21 @@ Todoとして調べておきたいことはNotionにメモした。
 - XSSで出てくると思うけど、credentialをブラウザのどこに格納すべきかという話(XSSの時に触れたらいいかな)
   - [アクセストークンをWebWorkerで扱う](https://lealog.hateblo.jp/entry/2021/06/09/134854) この記事内にあるAuth0のリンクが参考になる
 - XXEはp.217であるのでその時触れたらよさそう。
+
+### <a name="ref-1"></a>FLOCメモ
+
+FLOCはサードパーティCookieに代わる広告関連のブラウザAPI。FLOCはトライアル期間が2021/7/14で終了。また現在はFLOCはTopics APIに代わった。
+
+- [FLoCとは何ですか？ - web.dev](https://web.dev/i18n/ja/floc/)
+  - 広告に用いられるCookieの追跡やデバイスのフィンガープリントの手法はプライバシーに影響するので、プライバシーの保護と適切な広告の選択を両立する仕組みとしてFLOCがある。
+  - コホートという概念に基づいていることは分かったが複雑なので理解を一旦諦めた
+- [プライバシー サンドボックスの新しい Topics API について - Google Japan blog](https://japan.googleblog.com/2022/01/topics-api.html)
+  - ブラウザが閲覧履歴に基づいて関心の高い項目を選択。この選択はクライアントデバイスのみで行われる。広告主にはその項目が共有される。
+
+### <a name="ref-2"></a>CookieとToken認証メモ
+
+- [JWTを認証用トークンに使う時に調べたこと](https://christina04.hatenablog.com/entry/2016/06/07/123000)
+  - この記事がcookie/tokenやjws/jweやcsrf/xssなど様々な違いを説明しててよかった。
+- [JWT・Cookieそれぞれの認証方式のメリデメ比較](https://qiita.com/doyaaaaaken/items/02357c2ebca994160804)
+  - これもTokenベースについて言及ある
+- 僕がHTTP認証(Authorization)と書いているのは正しくはTokenベースの認証。認証フローは同じだけど、Tokenベースは認証したという事実をサーバ側でもたない点が異なる。そのためリクエスト毎にTokenを送る(認証に成功したという事実を送る)
