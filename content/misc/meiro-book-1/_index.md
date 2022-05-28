@@ -37,7 +37,7 @@ Attack&Defense形式面白そう！決勝のイメージしかないけどオン
 色々な環境構築をしている人がいた
 M1 MacはUTMが良さそう。[参考 - Apple Silicon Mac(M1 Mac)で「詳解 セキュリティコンテスト」の実習環境(もどき)を動かす](https://qiita.com/bamboo_and_tyre/items/5fc99faa26b61f0b4353) 基本的にはカーネルエクスプロイトを除いてCTF環境はDockerが動くなら大丈夫だと思われる。この本ではx86_64環境でDockerが動けば大丈夫そう。
 
-[multipass](https://multipass.run/) もM1でx86_64環境を構築するときの選択肢に入りそう。
+[multipass](https://multipass.run/) も仮想環境を作成できるが、M1 macではx86_64環境が2022/05/28現在は作れなさそう。
 
 virt-managerはGUI操作でqemuを使えるらしい。VirtualBoxと同じノリで扱えそう。
 
