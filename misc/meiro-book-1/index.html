@@ -1,0 +1,87 @@
+<!doctype html><html lang=ja><head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<link rel=stylesheet href=/sass/main.min.6b310111c019be6dd09332707e7917cd0f390efac00d80d7beb9b9407a671740.css>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css integrity=sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB crossorigin=anonymous>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js integrity=sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous onload=renderMathInElement(document.body)></script>
+<script defer>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script>
+<script defer src=/js/prism.min.js></script>
+<link rel=stylesheet href=/css/prism.min.css>
+</head>
+<body>
+<main id=content>
+<p class=category>
+カテゴリー: <a href=/misc>misc</a>
+</p>
+<article class=suuri><h1 id=第1回詳解セキュリティコンテスト輪読会の記録>第1回詳解セキュリティコンテスト輪読会の記録</h1>
+<h3 id=自己紹介>自己紹介</h3>
+<p>省略</p>
+<h3 id=第1章>第1章</h3>
+<h4 id=ctfの形式>CTFの形式</h4>
+<p>Attack&Defense形式面白そう！決勝のイメージしかないけどオンラインでもあるらしいので出てみたさある。決勝関連だと、SECCONはオンライン予選→オンサイト決勝という流れで決勝ではAttack&Defense形式も含まれる。</p>
+<h4 id=法律>法律</h4>
+<p>難しい。やってはいけないことを知っておくこと、法律や裁判の事例を学ぶことが大切。</p>
+<ul>
+<li>マルウェアの所持は法律で禁止されている。作成や所持もダメなので気をつけよう。</li>
+<li>もしも悪い人が悪いバイナリを自分のPCに送り込んできて自分が悪いことをしたことになったらどうしよう。botnetで乗っ取られたIoT機器の管理者は罪に問われないような気がするが、PC乗っ取りされると間違いなく罪に一度は問われてしまいそうで怖い。CSRFも同様の可能性がある。</li>
+<li>知識の公開について、writeupの公開時に問題で配布されたバイナリを含めるときはそれが悪性なものではないか十分に確認すること。悪性バイナリを公開してしまうことになってしまうので。</li>
+<li>インターネットに繋いで実験系は管理下のネットワークかどうか気を付ける</li>
+<li>脆弱性の調査はサーバの通常の動作に影響するものは避ける。報告はIPAか直接連絡かを、自分が報告したことを知られたいか知られたくないかに応じて選択する。</li>
+</ul>
+<h3 id=第2章>第2章</h3>
+<h4 id=環境構築>環境構築</h4>
+<p>色々な環境構築をしている人がいた<br>
+M1 MacはUTMが良さそう。<a href=https://qiita.com/bamboo_and_tyre/items/5fc99faa26b61f0b4353>参考 - Apple Silicon Mac(M1 Mac)で「詳解 セキュリティコンテスト」の実習環境(もどき)を動かす</a> 基本的にはカーネルエクスプロイトを除いてCTF環境はDockerが動くなら大丈夫だと思われる。この本ではx86_64環境でDockerが動けば大丈夫そう。</p>
+<p><a href=https://multipass.run/>multipass</a> もM1でx86_64環境を構築するときの選択肢に入りそう。</p>
+<p>virt-managerはGUI操作でqemuを使えるらしい。VirtualBoxと同じノリで扱えそう。</p>
+<h3 id=第3章>第3章</h3>
+<h4 id=docker>Docker</h4>
+<p>VS Code devcontainerと、VS Code Remote SSHいいぞという話</p>
+<p>VirtualBoxとホストでshared folderしていて、ホストのVSCodeでホストのファイルを編集していると、補完が効かない(パッケージは仮想環境にある)<br>
+これはVSCode Remote SSHで解決できそう。devcontainerも検討してもいいかも。</p>
+<p>Dockerを知っていたけどそんなにヘビーに使っていない人もいた。でもCTFでは <code>docker-compose up</code> を知っていれば大丈夫そう。</p>
+<h3 id=第4章>第4章</h3>
+<p>Pythonの環境について</p>
+<p>venv+pyenvを使っている人、<a href=https://github.com/python-poetry/poetry>Poetry</a>を使っている人がいた。いずれにせよ環境に直接pipで入れていくといつか壊れるので注意。<br>
+venvはUbuntuに標準で入っているらしい。<br>
+anaconda, minicondaは一度導入してエラーが出て諦めた人が複数人いた。</p>
+<h3 id=メモ>メモ</h3>
+<h4 id=biosやtpm20の話>BIOSやTPM2.0の話</h4>
+<p>BIOSの設定でWindowsの仮想化がうまくいかない<br>
+マザーボードによってBIOS設定画面が異なる。仮想化はAdvancedやVirtualizationの項目を眺めたら良さそう。</p>
+<p>TPM2.0がWindows 10 -> 11に上げるときに引っかかって、BIOSの設定を変更して11に上げた。<br>
+<a href=https://pc.watch.impress.co.jp/docs/topic/feature/1334277.html>Windows 11で必須になった「TPM 2.0」って何？TPMの役割や確認方法を紹介</a></p>
+<h4 id=vmwareの話題>VMwareの話題</h4>
+<p>VMwareを使って環境を作っている人がいて話題に出た<br>
+<a href=https://www.publickey1.jp/blog/22/vmwarebroadcom.html>［速報］VMwareがBroadcomに買収されると正式に発表、約8兆円で</a><br>
+サブスクになるのでは？ (<a href=https://twitter.com/TheRegister/status/1530005786214137857>参考 - Twitter</a>)という話もあり渋い雰囲気。</p>
+<h4 id=ctfへの参加情報>CTFへの参加情報</h4>
+<p>れっくすさんの <a href=https://rex.gs/2022/05/2022%E5%B9%B45%E6%9C%88%E3%81%AEctf%E6%83%85%E5%A0%B1/>2022年5月のCTF情報</a> が多分来年の5月も参考になるいい記事。<br>
+<a href=https://ctftime.org/>ctftime</a> を眺めるといっぱいCTFがありどれに出ればいいんだろうとなるけど、参加者が多いとか有名なCTFに出ていけばOK</p>
+<h4 id=writeup>writeup</h4>
+<p>writeupはハードル高いから必ず書かなきゃいけないものではない。解きっぱなしとか、解いたのにスクリプトの内容忘れるとかはよくある。<br>
+(でも作問者は書いてもらったら嬉しいそう)</p>
+<h4 id=ctfは現実で役立つか>CTFは現実で役立つか？</h4>
+<p>forensicsは役立ちそう。知識面では他のは役立つことは少なそう。<br>
+ただ、CTFの問題を解く過程で色々考えて理解しようとしたり、公式ドキュメントをあたったり、検索ワードを変えてみるなどの手法は他の分野でも役立っている。</p>
+<h4 id=輪読会ってどう進めたらいいんだろうね>輪読会ってどう進めたらいいんだろうね</h4>
+<p>もし次に読む範囲が読み切れていなくても、輪読会に出るような雰囲気を作りたい。やってないから休もう、ではなく、やってないけど出てみて刺激をもらって俺もやるかあとなるのが一番良い。</p>
+<p>行間を埋めてみた情報は嬉しい。他のことをやってみた、例えばwiresharkの話題がチラッと6.1で出てくるけど、これをみて試しにパケットキャプチャしてみました、とかあると嬉しい。</p>
+<p>ただ、情報提供のハードルは下げたいので、「この資料良さそう！読んでないけど」も全然アリとしたい。</p>
+<p>司会とドキュメント担当が一緒は厳しいので、役割分担する。</p>
+</article>
+<footer>
+<p class=license>
+This document is licensed under
+<a href=https://creativecommons.org/licenses/by/4.0/ target=_blank rel="noopener noreferrer">CC-BY-4.0</a>
+</p>
+<p class=repository>
+Link to
+<a href=https://github.com/uta8a/scrap.docs target=_blank rel="noopener noreferrer">GitHub Repository</a>
+</p>
+</footer>
+</main>
+</body>
+</html>
