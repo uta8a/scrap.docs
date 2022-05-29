@@ -2,7 +2,7 @@
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
 <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
-<link rel=stylesheet href=/sass/main.min.6e96a703db6986a810b78b787f715c251448097cb1b37a5f2cb675808b29a91d.css>
+<link rel=stylesheet href=/sass/main.min.851bc9617c925267aed8609bacc4e8cbd4c4c44564c83c9104aa873c93a0ed7d.css>
 <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css integrity=sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB crossorigin=anonymous>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js integrity=sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p crossorigin=anonymous></script>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous onload=renderMathInElement(document.body)></script>
@@ -44,6 +44,91 @@
 <li>p.113 Webブラウザセキュリティ: <a href=https://www.lambdanote.com/products/wbs>Webブラウザセキュリティ ― Webアプリケーションの安全性を支える仕組みを整理する</a> が参考になりそう。</li>
 <li>p.113 Webブラウザセキュリティ: ちょっと外れる話題だけど、Shadow DOM Closedとchrome extensionの話題と、prototype pollutionによりclosedは回避できるのでDOMにセキュアな情報は置いてはいけないという話</li>
 </ul>
+<h3 id=7章>7章</h3>
+<p><strong>一言まとめ</strong>: ディレクトリトラバーサル、<code>/proc</code></p>
+<h4 id=確認事項-1>確認事項</h4>
+<p>手を動かすポイント(ここでやった人いるか & 詰まった人いるか確認)</p>
+<ul>
+<li><input disabled type=checkbox> p.125 7.4 攻撃手法(>やった)</li>
+</ul>
+<h4 id=話題-1>話題</h4>
+<ul>
+<li>nginxの設定不備問題
+<ul>
+<li>graneedさんの記事 <a href=https://graneed.hatenablog.com/entry/2019/12/29/115100#nginx%E3%81%AE%E8%A8%AD%E5%AE%9A%E4%B8%8D%E5%82%99>nginxの設定不備</a></li>
+<li>これはCPCTF 2022で出題歴あり <a href=https://trap.jp/post/1237/>Web/Forbidden 2 (easy) - traP作問者writeup</a></li>
+</ul>
+</li>
+<li><code>/proc</code> の話でmisc問で見かけるもの
+<ul>
+<li><code>/proc/self/environ</code> 以外にも、misc問で <code>/proc/self/cwd</code> を使うことがある</li>
+<li>misc readme SECCON Beginners CTF 2020 <a href=https://ptr-yudai.hatenablog.com/entry/2020/05/24/174914#Misc-272pts-readme-71-solves>作問者writeup - CTFするぞ</a></li>
+<li><code>man proc</code> で目を通しておくとよいが、全部は把握しきれないほどある</li>
+</ul>
+</li>
+<li>envで <code>GPG_KEY</code> がありぎょっとするけどこれはDockerビルド時に書き込まれる、公開してよいもの <a href=https://stackoverflow.com/questions/50751952/why-do-the-official-docker-python-images-include-a-gpg-key-environment-variable>stackoverflowの質問</a></li>
+</ul>
+<p><img src=p-1.jpg alt=p-1></p>
+<h3 id=8章>8章</h3>
+<p><strong>一言まとめ</strong>: XSSの概要、CSPの仕様、いくつかのCSPバイパス手法</p>
+<h4 id=確認事項-2>確認事項</h4>
+<p>手を動かすポイント(ここでやった人いるか & 詰まった人いるか確認)</p>
+<ul>
+<li><input disabled type=checkbox> p.147 CSPのバイパス base-uri(>やった)</li>
+<li><input disabled type=checkbox> p.151 DOM Clobberingによるstrict-dynamicのバイパス(>やった)</li>
+</ul>
+<h4 id=話題-2>話題</h4>
+<ul>
+<li>つばめさんのxss.shift-js.infoがサービス終了していた&mldr;
+<ul>
+<li>昔よい教材があった <a href=https://akouryy.hatenablog.jp/entry/ctf/xss.shift-js.info>参考 - XSS Challenge (xss.shift-js.info) writeup</a></li>
+<li>元はセキュリティ・ミニキャンプ in 岡山 2018 演習コンテンツだったのが公開されていたもの</li>
+</ul>
+</li>
+<li>p.136 クローラーってどういう実装なんだろう
+<ul>
+<li>Wani Hackaseのリポジトリに実装例があった <a href=https://github.com/wani-hackase/wanictf21spring-writeup/blob/b6888c5d23e28935e4729d46e47502bef89a5481/web/wani_request_2/src/api/app.js>wani-hackase/wanictf21spring-writeup</a></li>
+</ul>
+</li>
+<li>CSPは Webブラウザセキュリティ を読もう！(まだ積んでます)</li>
+<li>Script gadget, 概念としてはpwnのROP gadgetに近そう</li>
+<li>Pythonだけのコードを動かすときの手順は以下でやっている</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text>cd dir
+poetry init
+# add deps flask, ...
+poetry install
+poetry run python3 app.py
+</code></pre></div><ul>
+<li>baseの例が動かないと思ったら、baseタグ前にlinkなどのurlを含むやつ置くとダメらしいとMDNに書いてある。</li>
+</ul>
+<blockquote>
+<p>Warning: 以下の属性のいずれかが指定されている場合、この要素は URL の属性値を持つ他の要素、例えば <link> の href 属性などの前に置く必要があります。<br>
+<a href=https://developer.mozilla.org/ja/docs/Web/HTML/Element/base>https://developer.mozilla.org/ja/docs/Web/HTML/Element/base</a></p>
+</blockquote>
+<h4 id=確認クイズ>確認クイズ</h4>
+<ul>
+<li>XSSの種類、3つ答えよ</li>
+</ul>
+<details>
+<summary>解答</summary>
+<ul>
+<li>Reflected</li>
+<li>Stored</li>
+<li>DOM based</li>
+</ul>
+</details>
+<ul>
+<li>本書で登場したCSPのバイパス手法を3つ答えよ</li>
+</ul>
+<details>
+<summary>解答</summary>
+<ul>
+<li>ホストからのガジェット組み立て</li>
+<li>base-uriディレクティブの設定不備</li>
+<li>DOM Clobbering</li>
+</ul>
+</details>
 <h2 id=メモ>メモ</h2>
 </article>
 <footer>
