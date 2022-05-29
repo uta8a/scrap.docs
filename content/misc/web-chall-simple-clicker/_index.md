@@ -6,6 +6,8 @@ draft: false
 changelog:
   - summary: 見出し作成
     date: 2022-05-29T12:52:27+09:00
+  - summary: ひとまず記事完成
+    date: 2022-05-29T14:26:16+09:00
 ---
 
 # 単純なCTFの問題作問: Simple Clicker
@@ -14,7 +16,7 @@ changelog:
 
 詳解セキュリティコンテスト 6.3 Webクライアントを読んで、クライアントを書くのに慣れる目的で簡単な問題を作ってみました。
 
-[問題リポジトリはこちら]()
+[問題リポジトリはこちら](https://github.com/uta8a/pub.challs/tree/main/web/simple-clicker)
 
 この記事を読んで得られること
 
