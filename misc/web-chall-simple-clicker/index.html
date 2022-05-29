@@ -2,7 +2,7 @@
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
 <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
-<link rel=stylesheet href=/sass/main.min.6b310111c019be6dd09332707e7917cd0f390efac00d80d7beb9b9407a671740.css>
+<link rel=stylesheet href=/sass/main.min.6e96a703db6986a810b78b787f715c251448097cb1b37a5f2cb675808b29a91d.css>
 <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css integrity=sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB crossorigin=anonymous>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js integrity=sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p crossorigin=anonymous></script>
 <script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous onload=renderMathInElement(document.body)></script>
@@ -17,12 +17,115 @@
 </p>
 <article class=suuri><h1 id=単純なctfの問題作問-simple-clicker>単純なCTFの問題作問: Simple Clicker</h1>
 <h2 id=概要>概要</h2>
+<p>詳解セキュリティコンテスト 6.3 Webクライアントを読んで、クライアントを書くのに慣れる目的で簡単な問題を作ってみました。</p>
+<p><a href>問題リポジトリはこちら</a></p>
+<p>この記事を読んで得られること</p>
+<ul>
+<li>単純なWebsocket clientをPythonで書くスクリプト例</li>
+<li>CTFの問題で、ブラウザの要素をdevtoolsからいじって解くやり方</li>
+<li>作問過程: fastify, handlebars, nodemonなどを用いた簡単なwebサーバを作る様子</li>
+</ul>
 <h2 id=詳細>詳細</h2>
+<h3 id=問題概要>問題概要</h3>
+<p>以下のような、ボタンを押すと clicked <code>n</code> times の <code>n</code> が1ずつ増えていくサービスが与えられ、たくさん押せばフラグが手に入る。</p>
+<p><img src=p-1.jpg alt=p-1></p>
+<p>与えられるソースコードは <a href=https://github.com/uta8a/pub.challs/tree/main/web/simple-clicker/files><code>files/</code></a> 以下です。</p>
+<h3 id=解法>解法</h3>
+<p><code>public/</code> 以下がフロントエンド、<code>index.js</code> がサーバのコードになっています。<code>package.json</code> を見ると以下のようなものが見えるので、環境変数のフラグを取得すればよさそうです。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text>&#34;prod&#34;: &#34;FLAG=&#39;&lt;censored&gt;&#39; node index.js&#34;
+</code></pre></div><p>index.jsに以下のような記述があります。 <a href=https://github.com/uta8a/pub.challs/blob/af9b8d97d5a8d773fa5024a3056c3588419b9980/web/simple-clicker/files/index.js#L39-L57>link</a></p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=nx>wsHandler</span><span class=o>:</span> <span class=p>(</span><span class=nx>conn</span><span class=p>,</span> <span class=nx>req</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+    <span class=nx>conn</span><span class=p>.</span><span class=nx>setEncoding</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
+    <span class=nx>conn</span><span class=p>.</span><span class=nx>socket</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;message&#39;</span><span class=p>,</span> <span class=nx>message</span> <span class=p>=&gt;</span> <span class=p>{</span>
+        <span class=kr>const</span> <span class=nx>data</span> <span class=o>=</span> <span class=nx>filterInt</span><span class=p>(</span><span class=nx>message</span><span class=p>.</span><span class=nx>toString</span><span class=p>());</span>
+        <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>data</span><span class=p>)</span>
+        <span class=k>if</span> <span class=p>(</span><span class=nb>isNaN</span><span class=p>(</span><span class=nx>data</span><span class=p>))</span> <span class=p>{</span>
+            <span class=kr>const</span> <span class=nx>reply</span> <span class=o>=</span> <span class=p>{</span><span class=nx>message</span><span class=o>:</span> <span class=kc>null</span><span class=p>,</span> <span class=nx>error</span><span class=o>:</span> <span class=s1>&#39;not a number&#39;</span><span class=p>}</span>
+            <span class=nx>conn</span><span class=p>.</span><span class=nx>socket</span><span class=p>.</span><span class=nx>send</span><span class=p>(</span><span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>(</span><span class=nx>reply</span><span class=p>))</span>
+            <span class=k>return</span>
+        <span class=p>}</span>
+        <span class=k>if</span> <span class=p>(</span><span class=nx>data</span> <span class=o>+</span> <span class=mi>1</span> <span class=o>&gt;</span> <span class=nx>CLICK_MAX</span><span class=p>)</span> <span class=p>{</span>
+            <span class=kr>const</span> <span class=nx>reply</span> <span class=o>=</span> <span class=p>{</span><span class=nx>message</span><span class=o>:</span> <span class=kc>null</span><span class=p>,</span> <span class=nx>error</span><span class=o>:</span> <span class=sb>`Flag is: </span><span class=si>${</span><span class=nx>process</span><span class=p>.</span><span class=nx>env</span><span class=p>.</span><span class=nx>FLAG</span><span class=si>}</span><span class=sb>`</span><span class=p>}</span>
+            <span class=nx>conn</span><span class=p>.</span><span class=nx>socket</span><span class=p>.</span><span class=nx>send</span><span class=p>(</span><span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>(</span><span class=nx>reply</span><span class=p>))</span>
+            <span class=k>return</span>
+        <span class=p>}</span>
+        <span class=kr>const</span> <span class=nx>reply</span> <span class=o>=</span> <span class=p>{</span><span class=nx>message</span><span class=o>:</span> <span class=nx>data</span><span class=o>+</span><span class=mi>1</span><span class=p>,</span> <span class=nx>error</span><span class=o>:</span> <span class=kc>null</span><span class=p>}</span>
+        <span class=nx>conn</span><span class=p>.</span><span class=nx>socket</span><span class=p>.</span><span class=nx>send</span><span class=p>(</span><span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>(</span><span class=nx>reply</span><span class=p>))</span>
+    <span class=p>})</span>
+<span class=p>}</span>
+</code></pre></div><p>どうやらwebsocketを通じてデカい数字を送れば、<code>data + 1</code> が巨大になってerrorとしてフラグが返ってきそうです。</p>
+<p>ここでは、2つの方法で解いてみることにします。</p>
+<h3 id=解法1-ブラウザの要素をいじる>解法1: ブラウザの要素をいじる</h3>
+<p>これはブラウザのソースコードが比較的単純な時に有効です。</p>
+<p>今回だと <code>public/index.hbs</code> が<code>id="counter"</code> の要素のtextContentを取ってきて数字に変換して送っています。なので、その要素の中身をブラウザのdevtoolsから直接書き換えてからボタンを押せばフラグが手に入ります。</p>
+<h3 id=解法2-pythonでクライアントを書く>解法2: pythonでクライアントを書く</h3>
+<p>これはブラウザが難読化jsで解法1が使いにくい、かつサーバのソースコードや挙動が分かる時に使えます。</p>
+<p>ブラウザ以外のクライアントがサーバと通信するような、GUIアプリのゲームチート問でもこれが使えます。</p>
+<p>コードは <a href=https://github.com/uta8a/pub.challs/tree/main/web/simple-clicker/solver>こちら</a> に置きました。poetryを使ってパッケージ管理をしています。</p>
+<p>最終的に以下のようにflagを得られました。(作問時の画像なのでフラグの中身は別になっています)</p>
+<p><img src=p-3.jpg alt=p-3></p>
+<h3 id=作問過程>作問過程</h3>
+<p>web問やmiscのgame cheat問の構造を、クライアントとサーバに着目して分類する。(その他もありうる)</p>
+<ul>
+<li>クライアントにflagが存在</li>
+<li>サーバにflagが存在</li>
+</ul>
+<p>図のように分類できる。実際はサーバにフラグがありかつクライアントが難読化されていて、サーバの代わりとなるものを作ってあげてクライアントを騙すなど色々な種類があるので一例として。</p>
+<p><img src=p-4.jpg alt=p-4></p>
+<p>今回は、難読化の勉強をしたかったので <a href=https://github.com/javascript-obfuscator/javascript-obfuscator>JavaScript obfuscator</a> を使いたかったが、その前にkusuwadaさんのブログ(参考文献1)を読んでクライアントを書く問題を一個挟んでもいいなと思い作問した。</p>
+<p>また、expressが使われがちだけどfastifyがいいとか、nodemonとか使ったことないので慣れる目的もあった。</p>
+<p>流れ</p>
+<ul>
+<li>fastifyでhello world返すサンプルをnodeで動かす</li>
+<li>handlebarsをテンプレートとして使うことに決めた</li>
+<li>nodemonでホットリロード効かせた</li>
+<li>websocketを調べた</li>
+<li>dockerに載せた</li>
+</ul>
+<p>その他色々</p>
+<ul>
+<li><a href=https://www.fastify.io/docs/latest/Guides/Getting-Started/>fastifyの最初に見る場所</a></li>
+<li>npmバージョン固定は <code>npm install &lt;name> --save-exact</code></li>
+<li>nodemonは<code>e</code>指定でホットリロード監視が効く <code>nodemon -e js,hbs index.js</code></li>
+<li><a href=https://www.fastify.io/ecosystem/>fastifyのプラグインはここから選ぶ</a></li>
+<li>Docker内では <code>0.0.0.0</code> が外に出るので指定する</li>
+</ul>
 <h2 id=メモ>メモ</h2>
+<h3 id=esm対応とdocker-distrolessnodejs>ESM対応とdocker distroless:nodejs</h3>
+<p>ESM対応したコードを書きたいと思って書いてみた。しかしdistrolessは <a href=https://github.com/GoogleContainerTools/distroless/blob/0d757ece34cdc83a2148cea6c697e262c333cb84/nodejs/BUILD#L15><code>node</code> がエントリーポイント</a>なので <code>node</code> の引数で <code>.mjs</code> 対応をせずにES Modulesにしようと考えた。</p>
+<p>結局 <a href=https://github.com/nodejs/node/issues/41136#issuecomment-991650220>こちらのissue</a> を読んでscriptを補助で書くことで対応した。これはexperimentalなので壊れる可能性が高いが、時代はESMへ向かうのでそのうちloader指定などはいらなくなると思う。</p>
+<h3 id=websocketはchrome-devtoolsのネットワークタブで見れる>websocketはchrome devtoolsのネットワークタブで見れる</h3>
+<p>すごい見やすい。</p>
+<p><img src=p-2.jpg alt=p-2></p>
+<h3 id=websocketとsocketioは違う>websocketとsocket.ioは違う</h3>
+<p>最初pythonのライブラリでpython-socketioを使っていたら通信が失敗するのであれれと思っていたら、どうも両者が別物らしい。まだ理解できてないので理解したい。</p>
+<h3 id=今後参考にしたい問題>今後参考にしたい問題</h3>
+<p>game cheat関連</p>
+<ul>
+<li><a href=https://github.com/theoremoon/cakectf-2021-public/tree/master/misc/kingtaker>CakeCTF 2021 misc kingtaker</a>
+<ul>
+<li><a href=https://ptr-yudai.hatenablog.com/entry/2021/08/30/000015#cheat-Kingtaker>作問者writeup</a></li>
+<li>GameMaker:Studioを用いたブラウザゲーム</li>
+<li>ブラウザのメモリハックが想定解</li>
+</ul>
+</li>
+</ul>
 <h2 id=関連する問題>関連する問題</h2>
 <h2 id=参考文献>参考文献</h2>
-<h2 id=関連項目>関連項目</h2>
-<h2 id=外部リンク>外部リンク</h2>
+<ul>
+<li>1: <a href=https://tech.kusuwada.com/entry/2020/04/05/132308#section1>ångstromCTF 2020 Web分野の復習 writeup - 好奇心の足跡</a>
+<ul>
+<li>angstrom ctf 2020 web Woooosh</li>
+<li>kusuwadaさんが2通りの解き方を提示されているところから、今回は通信部分を取り出して調べることにした。</li>
+</ul>
+</li>
+<li>2: <a href=https://st98.github.io/diary/posts/2020-03-19-angstromctf.html#web-130-woooosh-175-solves>ångstromCTF 2020 の write-up Woooosh - st98 の日記帳</a>
+<ul>
+<li>同じくWooooshのwriteup</li>
+<li>JavaScript obfuscatorを知った</li>
+</ul>
+</li>
+</ul>
 </article>
 <footer>
 <p class=license>
