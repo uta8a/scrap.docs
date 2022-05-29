@@ -51,6 +51,7 @@ p {
   display: block;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
+  line-height: 1.7;
 }
 
 i,
@@ -101,4 +102,31 @@ li {
   & > ul {
     margin-left: 1em;
   }
+}
+
+p + ul {
+  margin-top: 1rem;
+}
+
+ul + p {
+  margin-top: 1rem;
+}
+
+blockquote {
+  border-left: 4px solid #bbb9b8;
+  box-sizing: border-box;
+  color: #555555;
+  background-color: #fff8f1;
+  padding-left: 1rem;
+  font-style: italic;
+}
+
+blockquote + p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+p + blockquote {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
