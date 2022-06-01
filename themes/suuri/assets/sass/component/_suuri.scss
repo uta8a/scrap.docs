@@ -174,3 +174,12 @@ details {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+
+code:not(pre code) {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border-radius: 5px;
+  background: #faf2ec;
+}
