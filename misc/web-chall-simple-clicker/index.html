@@ -31,9 +31,8 @@
 <p><img src=p-1.jpg alt=p-1></p>
 <p>与えられるソースコードは <a href=https://github.com/uta8a/pub.challs/tree/main/web/simple-clicker/files><code>files/</code></a> 以下です。</p>
 <h3 id=解法>解法</h3>
-<p><code>public/</code> 以下がフロントエンド、<code>index.js</code> がサーバのコードになっています。<code>package.json</code> を見ると以下のようなものが見えるので、環境変数のフラグを取得すればよさそうです。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text>&#34;prod&#34;: &#34;FLAG=&#39;&lt;censored&gt;&#39; node index.js&#34;
-</code></pre></div><p>index.jsに以下のような記述があります。 <a href=https://github.com/uta8a/pub.challs/blob/af9b8d97d5a8d773fa5024a3056c3588419b9980/web/simple-clicker/files/index.js#L39-L57>link</a></p>
+<p><code>public/</code> 以下がフロントエンド、<code>index.js</code> がサーバのコードになっています。 <code>FLAG</code> などでソースコード検索をかけてみましょう。</p>
+<p>index.jsに以下のような記述があります。 <a href=https://github.com/uta8a/pub.challs/blob/af9b8d97d5a8d773fa5024a3056c3588419b9980/web/simple-clicker/files/index.js#L39-L57>link</a></p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=nx>wsHandler</span><span class=o>:</span> <span class=p>(</span><span class=nx>conn</span><span class=p>,</span> <span class=nx>req</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
     <span class=nx>conn</span><span class=p>.</span><span class=nx>setEncoding</span><span class=p>(</span><span class=s1>&#39;utf-8&#39;</span><span class=p>)</span>
     <span class=nx>conn</span><span class=p>.</span><span class=nx>socket</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;message&#39;</span><span class=p>,</span> <span class=nx>message</span> <span class=p>=&gt;</span> <span class=p>{</span>
