@@ -86,19 +86,37 @@
 <ul>
 <li><a href=https://www.fastify.io/docs/latest/Guides/Getting-Started/>fastifyの最初に見る場所</a></li>
 <li>npmバージョン固定は <code>npm install &lt;name> --save-exact</code></li>
-<li>nodemonは<code>e</code>指定でホットリロード監視が効く <code>nodemon -e js,hbs index.js</code></li>
+<li>nodemonは <code>e</code> 指定でホットリロード監視が効く <code>nodemon -e js,html index.js</code>
+<ul>
+<li>デフォルトで <code>-e</code> なしでは <code>js,mjs,json</code> を見に行く。<code>-e html</code> だとhtmlだけを見に行ってjsを見に行かない。今回はjs,htmlを指定したいので、 <code>-e js,html</code> とした。</li>
+</ul>
+</li>
 <li><a href=https://www.fastify.io/ecosystem/>fastifyのプラグインはここから選ぶ</a></li>
-<li>Docker内では <code>0.0.0.0</code> が外に出るので指定する</li>
+<li>Docker内では <code>0.0.0.0</code> を指定する
+<ul>
+<li><code>localhost</code> 、つまり <code>127.0.0.1</code> はコンテナ内の <code>127.0.0.1</code> とホストの <code>127.0.0.1</code> が異なるのでアクセスできない。</li>
+<li><code>0.0.0.0</code> はホストのすべてのネットワークインターフェースでlistenするのでアクセスできる。</li>
+<li>詳しくは <a href=https://zenn.dev/shake_sanma/articles/1c6475ba73da48>[Docker]0.0.0.0でサーバーを立てる理由(Python)</a> が分かりやすい。</li>
+</ul>
+</li>
 </ul>
 <h2 id=メモ>メモ</h2>
 <h3 id=esm対応とdocker-distrolessnodejs>ESM対応とdocker distroless:nodejs</h3>
 <p>ESM対応したコードを書きたいと思って書いてみた。しかしdistrolessは <a href=https://github.com/GoogleContainerTools/distroless/blob/0d757ece34cdc83a2148cea6c697e262c333cb84/nodejs/BUILD#L15><code>node</code> がエントリーポイント</a>なので <code>node</code> の引数で <code>.mjs</code> 対応をせずにES Modulesにしようと考えた。</p>
 <p>結局 <a href=https://github.com/nodejs/node/issues/41136#issuecomment-991650220>こちらのissue</a> を読んでscriptを補助で書くことで対応した。これはexperimentalなので壊れる可能性が高いが、時代はESMへ向かうのでそのうちloader指定などはいらなくなると思う。</p>
+<p>(追記) nodeがpackage.jsonを読みにいくので、distrolessの最終ステージにもpackage.jsonをコピーすると上記の対応はいらない。 <code>type: "module"</code> を書くだけで済む。</p>
 <h3 id=websocketはchrome-devtoolsのネットワークタブで見れる>websocketはchrome devtoolsのネットワークタブで見れる</h3>
 <p>すごい見やすい。</p>
 <p><img src=p-2.jpg alt=p-2></p>
+<p>しかもバイナリも見れる <a href="https://developer.chrome.com/blog/new-in-devtools-74/#:~:text=Click%20one%20of%20the%20Binary%20Message%20entries%20to%20inspect%20it.">参考</a></p>
 <h3 id=websocketとsocketioは違う>websocketとsocket.ioは違う</h3>
 <p>最初pythonのライブラリでpython-socketioを使っていたら通信が失敗するのであれれと思っていたら、どうも両者が別物らしい。まだ理解できてないので理解したい。</p>
+<h3 id=別解-wscat-burpの書き換え>別解: wscat, burpの書き換え</h3>
+<p><a href=https://github.com/websockets/wscat>websockets/wscat</a> を使うと対話的にncのようにwebsocketを扱えるので便利。</p>
+<p>また、Burp Suite (v2022.3.9 で確認)でも以下のようにwebsocket historyからrepeaterに送って書き換えて送ることで解ける。</p>
+<p><img src=p-5.jpg alt=p-5></p>
+<p><img src=p-6.jpg alt=p-6></p>
+<p><img src=p-7.jpg alt=p-7></p>
 <h3 id=今後参考にしたい問題>今後参考にしたい問題</h3>
 <p>game cheat関連</p>
 <ul>
@@ -110,7 +128,6 @@
 </ul>
 </li>
 </ul>
-<h2 id=関連する問題>関連する問題</h2>
 <h2 id=参考文献>参考文献</h2>
 <ul>
 <li>1: <a href=https://tech.kusuwada.com/entry/2020/04/05/132308#section1>ångstromCTF 2020 Web分野の復習 writeup - 好奇心の足跡</a>
