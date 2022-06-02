@@ -8,6 +8,8 @@ changelog:
     date: 2022-05-29T12:52:27+09:00
   - summary: ひとまず記事完成
     date: 2022-05-29T14:26:16+09:00
+  - summary: 指摘やコメント頂いたものを反映
+    date: 2022-06-02T09:06:56+09:00
 ---
 
 # 単純なCTFの問題作問: Simple Clicker
@@ -115,11 +117,13 @@ web問やmiscのgame cheat問の構造を、クライアントとサーバに着
 
 - [fastifyの最初に見る場所](https://www.fastify.io/docs/latest/Guides/Getting-Started/)
 - npmバージョン固定は `npm install <name> --save-exact`
-- nodemonは`e`指定でホットリロード監視が効く `nodemon -e js,hbs index.js`
+- nodemonは `e` 指定でホットリロード監視が効く `nodemon -e js,html index.js`
+  - デフォルトで `-e` なしでは `js,mjs,json` を見に行く。`-e html` だとhtmlだけを見に行ってjsを見に行かない。今回はjs,htmlを指定したいので、 `-e js,html` とした。
 - [fastifyのプラグインはここから選ぶ](https://www.fastify.io/ecosystem/)
-- Docker内では `0.0.0.0` が外に出るので指定する
-
-
+- Docker内では `0.0.0.0` を指定する
+  - `localhost` 、つまり `127.0.0.1` はコンテナ内の `127.0.0.1` とホストの `127.0.0.1` が異なるのでアクセスできない。
+  - `0.0.0.0` はホストのすべてのネットワークインターフェースでlistenするのでアクセスできる。
+  - 詳しくは [[Docker]0.0.0.0でサーバーを立てる理由(Python)](https://zenn.dev/shake_sanma/articles/1c6475ba73da48) が分かりやすい。
 
 ## メモ
 
@@ -129,15 +133,31 @@ ESM対応したコードを書きたいと思って書いてみた。しかしdi
 
 結局 [こちらのissue](https://github.com/nodejs/node/issues/41136#issuecomment-991650220) を読んでscriptを補助で書くことで対応した。これはexperimentalなので壊れる可能性が高いが、時代はESMへ向かうのでそのうちloader指定などはいらなくなると思う。
 
+(追記) nodeがpackage.jsonを読みにいくので、distrolessの最終ステージにもpackage.jsonをコピーすると上記の対応はいらない。 `type: "module"` を書くだけで済む。
+
 ### websocketはchrome devtoolsのネットワークタブで見れる
 
 すごい見やすい。
 
 ![p-2](p-2.jpg)
 
+しかもバイナリも見れる [参考](https://developer.chrome.com/blog/new-in-devtools-74/#:~:text=Click%20one%20of%20the%20Binary%20Message%20entries%20to%20inspect%20it.)
+
 ### websocketとsocket.ioは違う
 
 最初pythonのライブラリでpython-socketioを使っていたら通信が失敗するのであれれと思っていたら、どうも両者が別物らしい。まだ理解できてないので理解したい。
+
+### 別解: wscat, burpの書き換え
+
+[websockets/wscat](https://github.com/websockets/wscat) を使うと対話的にncのようにwebsocketを扱えるので便利。
+
+また、Burp Suite (v2022.3.9 で確認)でも以下のようにwebsocket historyからrepeaterに送って書き換えて送ることで解ける。 
+
+![p-5](p-5.jpg)
+
+![p-6](p-6.jpg)
+
+![p-7](p-7.jpg)
 
 ### 今後参考にしたい問題
 
@@ -147,9 +167,6 @@ game cheat関連
   - [作問者writeup](https://ptr-yudai.hatenablog.com/entry/2021/08/30/000015#cheat-Kingtaker)
   - GameMaker:Studioを用いたブラウザゲーム
   - ブラウザのメモリハックが想定解
-
-
-## 関連する問題
 
 ## 参考文献
 
