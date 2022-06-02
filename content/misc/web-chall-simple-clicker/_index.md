@@ -38,11 +38,7 @@ changelog:
 
 ### 解法
 
-`public/` 以下がフロントエンド、`index.js` がサーバのコードになっています。`package.json` を見ると以下のようなものが見えるので、環境変数のフラグを取得すればよさそうです。
-
-```text
-"prod": "FLAG='<censored>' node index.js"
-```
+`public/` 以下がフロントエンド、`index.js` がサーバのコードになっています。 `FLAG` などでソースコード検索をかけてみましょう。
 
 index.jsに以下のような記述があります。 [link](https://github.com/uta8a/pub.challs/blob/af9b8d97d5a8d773fa5024a3056c3588419b9980/web/simple-clicker/files/index.js#L39-L57)
 
