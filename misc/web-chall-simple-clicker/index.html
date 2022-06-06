@@ -23,7 +23,7 @@
 <ul>
 <li>単純なWebsocket clientをPythonで書くスクリプト例</li>
 <li>CTFの問題で、ブラウザの要素をdevtoolsからいじって解くやり方</li>
-<li>作問過程: fastify, handlebars, nodemonなどを用いた簡単なwebサーバを作る様子</li>
+<li>作問過程: fastify, nodemonなどを用いた簡単なwebサーバを作る様子</li>
 </ul>
 <h2 id=詳細>詳細</h2>
 <h3 id=問題概要>問題概要</h3>
@@ -76,7 +76,7 @@
 <p>流れ</p>
 <ul>
 <li>fastifyでhello world返すサンプルをnodeで動かす</li>
-<li>handlebarsをテンプレートとして使うことに決めた</li>
+<li>handlebarsをテンプレートとして使うことに決めた → handlebarsは後に必要無くなったので消した。</li>
 <li>nodemonでホットリロード効かせた</li>
 <li>websocketを調べた</li>
 <li>dockerに載せた</li>
@@ -103,11 +103,12 @@
 <h3 id=esm対応とdocker-distrolessnodejs>ESM対応とdocker distroless:nodejs</h3>
 <p>ESM対応したコードを書きたいと思って書いてみた。しかしdistrolessは <a href=https://github.com/GoogleContainerTools/distroless/blob/0d757ece34cdc83a2148cea6c697e262c333cb84/nodejs/BUILD#L15><code>node</code> がエントリーポイント</a>なので <code>node</code> の引数で <code>.mjs</code> 対応をせずにES Modulesにしようと考えた。</p>
 <p>結局 <a href=https://github.com/nodejs/node/issues/41136#issuecomment-991650220>こちらのissue</a> を読んでscriptを補助で書くことで対応した。これはexperimentalなので壊れる可能性が高いが、時代はESMへ向かうのでそのうちloader指定などはいらなくなると思う。</p>
-<p>(追記) nodeがpackage.jsonを読みにいくので、distrolessの最終ステージにもpackage.jsonをコピーすると上記の対応はいらない。 <code>type: "module"</code> を書くだけで済む。</p>
+<p>(追記) nodeがpackage.jsonを読みにいく？ので、distrolessの最終ステージにもpackage.jsonをコピーすると上記の対応はいらない。 <code>type: "module"</code> を書くだけで済む。</p>
 <h3 id=websocketはchrome-devtoolsのネットワークタブで見れる>websocketはchrome devtoolsのネットワークタブで見れる</h3>
 <p>すごい見やすい。</p>
 <p><img src=p-2.jpg alt=p-2></p>
-<p>しかもバイナリも見れる <a href="https://developer.chrome.com/blog/new-in-devtools-74/#:~:text=Click%20one%20of%20the%20Binary%20Message%20entries%20to%20inspect%20it.">参考</a></p>
+<p>しかもバイナリも見れる <a href="https://developer.chrome.com/blog/new-in-devtools-74/#:~:text=Click%20one%20of%20the%20Binary%20Message%20entries%20to%20inspect%20it.">参考</a><br>
+Webブラウザにはバイナリviewerだった&mldr;！？</p>
 <h3 id=websocketとsocketioは違う>websocketとsocket.ioは違う</h3>
 <p>最初pythonのライブラリでpython-socketioを使っていたら通信が失敗するのであれれと思っていたら、どうも両者が別物らしい。まだ理解できてないので理解したい。</p>
 <h3 id=別解-wscat-burpの書き換え>別解: wscat, burpの書き換え</h3>
