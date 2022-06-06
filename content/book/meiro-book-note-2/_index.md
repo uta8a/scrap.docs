@@ -12,6 +12,8 @@ changelog:
     date: 2022-05-29T06:26:05+09:00
   - summary: FLOCとToken認証書き足した
     date: 2022-05-29T07:23:45+09:00
+  - summary: simple clickerについて書き足した
+    date: 2022-06-06T18:17:00+09:00
 ---
 
 # 詳解セキュリティコンテスト輪読会資料#2
@@ -68,10 +70,11 @@ Todoとして調べておきたいことはNotionにメモした。
 - XSSで出てくると思うけど、credentialをブラウザのどこに格納すべきかという話(XSSの時に触れたらいいかな)
   - [アクセストークンをWebWorkerで扱う](https://lealog.hateblo.jp/entry/2021/06/09/134854) この記事内にあるAuth0のリンクが参考になる
 - XXEはp.217であるのでその時触れたらよさそう。
+- Web問のクライアントの取り扱いに関して簡単な問題を作ってみた。 [単純なCTFの問題作問: Simple Clicker](https://scrap.docs.uta8a.net/misc/web-chall-simple-clicker/)
 
 ### <a name="ref-1"></a>FLOCメモ
 
-FLOCはサードパーティCookieに代わる広告関連のブラウザAPI。FLOCはトライアル期間が2021/7/14で終了。また現在はFLOCはTopics APIに代わった。
+FLOCはサードパーティCookieに代わる広告関連のブラウザAPI。FLOCはトライアル期間が2021/7/14で終了。また現在FLOCはTopics APIに代わった。
 
 - [FLoCとは何ですか？ - web.dev](https://web.dev/i18n/ja/floc/)
   - 広告に用いられるCookieの追跡やデバイスのフィンガープリントの手法はプライバシーに影響するので、プライバシーの保護と適切な広告の選択を両立する仕組みとしてFLOCがある。
