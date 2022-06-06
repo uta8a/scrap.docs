@@ -10,6 +10,8 @@ changelog:
     date: 2022-05-29T14:26:16+09:00
   - summary: 指摘やコメント頂いたものを反映
     date: 2022-06-02T09:06:56+09:00
+  - summary: handlebars使わなくなったので修正
+    date: 2022-06-06T18:22:30+09:00
 ---
 
 # 単純なCTFの問題作問: Simple Clicker
@@ -24,7 +26,7 @@ changelog:
 
 - 単純なWebsocket clientをPythonで書くスクリプト例
 - CTFの問題で、ブラウザの要素をdevtoolsからいじって解くやり方
-- 作問過程: fastify, handlebars, nodemonなどを用いた簡単なwebサーバを作る様子
+- 作問過程: fastify, nodemonなどを用いた簡単なwebサーバを作る様子
 
 ## 詳細
 
@@ -104,7 +106,7 @@ web問やmiscのgame cheat問の構造を、クライアントとサーバに着
 流れ
 
 - fastifyでhello world返すサンプルをnodeで動かす
-- handlebarsをテンプレートとして使うことに決めた
+- handlebarsをテンプレートとして使うことに決めた → handlebarsは後に必要無くなったので消した。
 - nodemonでホットリロード効かせた
 - websocketを調べた
 - dockerに載せた
@@ -129,7 +131,7 @@ ESM対応したコードを書きたいと思って書いてみた。しかしdi
 
 結局 [こちらのissue](https://github.com/nodejs/node/issues/41136#issuecomment-991650220) を読んでscriptを補助で書くことで対応した。これはexperimentalなので壊れる可能性が高いが、時代はESMへ向かうのでそのうちloader指定などはいらなくなると思う。
 
-(追記) nodeがpackage.jsonを読みにいくので、distrolessの最終ステージにもpackage.jsonをコピーすると上記の対応はいらない。 `type: "module"` を書くだけで済む。
+(追記) nodeがpackage.jsonを読みにいく？ので、distrolessの最終ステージにもpackage.jsonをコピーすると上記の対応はいらない。 `type: "module"` を書くだけで済む。
 
 ### websocketはchrome devtoolsのネットワークタブで見れる
 
@@ -138,6 +140,7 @@ ESM対応したコードを書きたいと思って書いてみた。しかしdi
 ![p-2](p-2.jpg)
 
 しかもバイナリも見れる [参考](https://developer.chrome.com/blog/new-in-devtools-74/#:~:text=Click%20one%20of%20the%20Binary%20Message%20entries%20to%20inspect%20it.)
+Webブラウザにはバイナリviewerだった...！？
 
 ### websocketとsocket.ioは違う
 
