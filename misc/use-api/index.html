@@ -1,0 +1,158 @@
+<!doctype html><html lang=ja><head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<link rel=stylesheet href=/sass/main.min.87f827dfff5e923974e91a81f7dd7e1efae5c1ae18aea478ea157865c24b8363.css>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css integrity=sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB crossorigin=anonymous>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js integrity=sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous onload=renderMathInElement(document.body)></script>
+<script defer>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script>
+<script defer src=/js/prism.min.js></script>
+<link rel=stylesheet href=/css/prism.min.css>
+</head>
+<body>
+<main id=content>
+<p class=category>
+カテゴリー: <a href=/misc>misc</a>
+</p>
+<article class=suuri><h1 id=apiを触ってみよう>APIを触ってみよう</h1>
+<h2 id=概要>概要</h2>
+<p>この記事では以下のことを学びます。</p>
+<p>座学編</p>
+<ul>
+<li>APIとは何なのか</li>
+<li>APIの使い方
+<ul>
+<li>ツール(curl, postman)</li>
+<li>コード(TypeScript, Python)</li>
+</ul>
+</li>
+<li>APIを使う時に気をつけること</li>
+</ul>
+<p>実習編</p>
+<ul>
+<li>GUI: Postmanを使ってGitHub API (認証なし) を叩いてみよう
+<ul>
+<li>アカウント作成</li>
+<li>APIを叩く</li>
+</ul>
+</li>
+<li>CUI: curlを使ってniconico動画API (認証なし) を叩いてみよう</li>
+</ul>
+<h2 id=座学編>座学編</h2>
+<h2 id=apiとは何なのか>APIとは何なのか</h2>
+<p>APIとはアプリケーションプログラミングインターフェースの略です。例えば、今回だとWebの話なので以下のような状況を想定します。</p>
+<ul>
+<li>「サーバ」というものがあり、僕たちが「クライアント」からそのサーバと通信を行いたい。</li>
+</ul>
+<p><img src=p-1.png alt=p-1></p>
+<p>この通信について、サーバとクライアントの間でこういう風に通信をしますよ、というルールをAPIと言います。</p>
+<p>ただ、このAPIという用語は曖昧で、実際「APIを叩く」という言葉がよく使われますが、これは「通信する時のサーバ側の末端(エンドポイント)と通信を行う」という意味になっていたりと、広くサーバとクライアントの間のやりとりをAPIという言葉で指します。</p>
+<h2 id=apiの使い方>APIの使い方</h2>
+<p>APIを叩く時には、数回で済むときはツールを使い、何度も違う内容で叩く必要があって自動化したくなったときはコードを使うことが多いです。</p>
+<h3 id=使い方1-ツール>使い方1 ツール</h3>
+<p>色々ありますが、ここではPostmanとcurlを紹介します。どちらがいいというものではなく、どちらも使えるようになっておくと良いです。</p>
+<p><a href=https://www.postman.com/>Postman</a></p>
+<ul>
+<li>Webブラウザやアプリから使えるツール。</li>
+<li>GUIでできるので直感的で使いやすい</li>
+<li>外向けのリクエストはブラウザでできるが、自分のPCで立てたサーバに対してリクエストを送るときはデスクトップアプリが必要。(localhostへのリクエスト)</li>
+</ul>
+<p><a href=https://github.com/curl/curl>curl</a></p>
+<ul>
+<li>ターミナルから使えるツール</li>
+<li>CUIなので使い方を調べる必要があり慣れないうちは大変</li>
+<li>localhostへのリクエストは普通に送ることができる</li>
+</ul>
+<h3 id=使い方2-コード>使い方2 コード</h3>
+<p>これも様々な言語から利用することができます。ここでは、JavaScript/TypeScriptからの利用と、Pythonからの利用を見ていきましょう。</p>
+<p>JavaScript/TypeScript</p>
+<ul>
+<li><code>fetch</code> を使います</li>
+<li><a href=https://developer.mozilla.org/ja/docs/Web/API/Fetch_API/Using_Fetch>使い方ページ</a></li>
+<li>使い方は以下のような感じ</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=c1>// index.js
+</span><span class=c1></span><span class=nx>fetch</span><span class=p>(</span><span class=s1>&#39;http://example.com/api-endpoint&#39;</span><span class=p>)</span> <span class=c1>// デフォルトでgetリクエストを送る
+</span><span class=c1></span>  <span class=p>.</span><span class=nx>then</span><span class=p>(</span><span class=nx>response</span> <span class=p>=&gt;</span> <span class=nx>response</span><span class=p>.</span><span class=nx>text</span><span class=p>())</span>
+  <span class=p>.</span><span class=nx>then</span><span class=p>(</span><span class=nx>data</span> <span class=p>=&gt;</span> <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>data</span><span class=p>));</span> <span class=c1>// 取得したデータを出力
+</span></code></pre></div><p>Python</p>
+<ul>
+<li><code>requests</code> ライブラリを使います</li>
+<li><a href=https://requests-docs-ja.readthedocs.io/en/latest/>使い方ページ</a></li>
+<li>使い方は以下のような感じ</li>
+</ul>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=c1># main.py</span>
+<span class=kn>import</span> <span class=nn>requests</span> <span class=c1># ライブラリをインポート</span>
+
+<span class=n>res</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;https://example.com/api-endpoint&#39;</span><span class=p>)</span> <span class=c1># getリクエストを送る</span>
+<span class=nb>print</span><span class=p>(</span><span class=n>res</span><span class=o>.</span><span class=n>text</span><span class=p>)</span> <span class=c1># 取得したデータを出力</span>
+</code></pre></div><h2 id=apiを使う時に気をつけること>APIを使う時に気をつけること</h2>
+<p>これは<strong>大事な話</strong>になります。</p>
+<p>APIはサーバの資源を利用する行為です。リクエストを過剰に送った場合、相手のサーバに負荷を与えることになります。この行為は行き過ぎるとDoSやDDoSといった攻撃と同じことをしていることになってしまいます。</p>
+<p>そのため、以下のことに気を付けてください</p>
+<ul>
+<li>一度外部のサーバにリクエストを送ったあとは<strong>少なくとも1秒は間隔を開ける</strong>
+<ul>
+<li>ツールを使って手動で行っているときはあまり気をつける必要はないですが、コードを用いてfor文でリクエストを複数回飛ばすときは気をつけましょう。</li>
+<li>また、1秒だと絶対安心というものでもないです。間隔をどのくらい開けたらいいかは調べて調整して自己責任で行いましょう。</li>
+</ul>
+</li>
+<li>非公開APIをなるべく触らない
+<ul>
+<li>ドキュメントとして公開されていないけど、表から叩けるAPIのことを非公開APIと言います。あまり触らない方がいいです。</li>
+</ul>
+</li>
+<li><strong>APIを叩いた人はサーバに記録される</strong>
+<ul>
+<li>自分のIPアドレスや、認証ありのAPIの場合認証情報を通してアカウント情報がサーバ側でログに記録されています。このことを念頭に置いて利用しましょう。</li>
+</ul>
+</li>
+</ul>
+<p>これらを守っていれば怒られることはありません。気をつけることは気をつけて、その上でしっかり利用していきましょう！</p>
+<h2 id=実習編>実習編</h2>
+<p>では座学編で大体雰囲気をつかんだと思うので、実際にAPIを利用してみましょう！</p>
+<p>ここではツールを利用します。また、認証ありのAPIは認証の仕方がそれぞれで異なっているので今回は省略します。</p>
+<h2 id=gui-postmanを使ってgithub-api-認証なし-を叩いてみよう>GUI: Postmanを使ってGitHub API (認証なし) を叩いてみよう</h2>
+<p>今回は、GitHub API (<a href=https://docs.github.com/ja/rest>ドキュメント</a>) を触ってみましょう。</p>
+<p><a href=https://www.postman.com/>Postman</a> へアクセスしてアカウントを作成してください。</p>
+<p>Workspaceに入りましょう</p>
+<p><img src=p-2.png alt=p-2></p>
+<p>Workspaceの左側のCollectionを作りましょう</p>
+<p><img src=p-3.png alt=p-3></p>
+<p>Collectionの下にNew Requestを作りましょう</p>
+<p><img src=p-4.png alt=p-4></p>
+<p>GETを選択し、URLに <code>https://api.github.com/users/uta8a/events</code> と入れてみましょう。これは僕(ユーザ名: uta8a)のGitHubアカウントの公開情報を見ることができるAPIです。</p>
+<p><img src=p-5.png alt=p-5></p>
+<p>下にサーバからJSONという形式で送られてきたレスポンスが表示されています。</p>
+<p>APIを叩いて、サーバと通信することができました！</p>
+<h2 id=cui-curlを使ってniconico動画api-認証なし-を叩いてみよう>CUI: curlを使ってniconico動画API (認証なし) を叩いてみよう</h2>
+<p>ここでは、curlを使ってniconico動画のAPIを叩いてみます。</p>
+<p><a href=https://site.nicovideo.jp/search-api-docs/snapshot>ドキュメント</a> を見ながら試してみましょう。</p>
+<p>まずは例そのまま。これで「初音ミク」と検索をかけた時のランキング上位から3つが表示されます。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text>$ curl -A &#39;apiguide application&#39; &#39;https://api.search.nicovideo.jp/api/v2/snapshot/video/contents/search?targets=title&amp;fields=contentId,title,viewCounter&amp;_sort=-viewCounter&amp;_offset=0&amp;_limit=3&amp;_context=apiguide_application&#39; --data-urlencode &#34;q=初音ミク&#34; --data-urlencode &#34;filters[viewCounter][gte]=10000&#34;
+
+{&#34;data&#34;:[{&#34;contentId&#34;:&#34;sm1097445&#34;,&#34;title&#34;:&#34;【初音ミク】みくみくにしてあげる♪【してやんよ】&#34;,&#34;viewCounter&#34;:15936313},{&#34;contentId&#34;:&#34;sm15630734&#34;,&#34;title&#34;:&#34;『初音ミク』千本桜『オリジナル曲PV』&#34;,&#34;viewCounter&#34;:15550600},{&#34;contentId&#34;:&#34;sm1715919&#34;,&#34;title&#34;:&#34;初音ミク　が　オリジナル曲を歌ってくれたよ「メルト」&#34;,&#34;viewCounter&#34;:15007350}],&#34;meta&#34;:{&#34;id&#34;:&#34;24206b1b-c0f5-4451-b878-c40dab0b2c9a&#34;,&#34;totalCount&#34;:19015,&#34;status&#34;:200}}
+</code></pre></div><p>初音ミクを稲葉曇に変えて、viewCounterを少し減らしてみます。やはりラグトレインが人気なんですね。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text>$ curl -A &#39;apiguide application&#39; &#39;https://api.search.nicovideo.jp/api/v2/snapshot/video/contents/search?targets=title&amp;fields=contentId,title,viewCounter&amp;_sort=-viewCounter&amp;_offset=0&amp;_limit=3&amp;_context=apiguide_application&#39; --data-urlencode &#34;q=稲葉曇&#34; --data-urlencode &#34;filters[viewCounter][gte]=100&#34;
+
+{&#34;data&#34;:[{&#34;contentId&#34;:&#34;sm37198038&#34;,&#34;title&#34;:&#34;稲葉曇『ラグトレイン』Vo. 歌愛ユキ&#34;,&#34;viewCounter&#34;:3031537},{&#34;contentId&#34;:&#34;sm32801250&#34;,&#34;title&#34;:&#34;稲葉曇『ロストアンブレラ』Vo. 歌愛ユキ&#34;,&#34;viewCounter&#34;:850058},{&#34;contentId&#34;:&#34;sm38728089&#34;,&#34;title&#34;:&#34;稲葉曇『ハルノ寂寞』Vo. 弦巻マキ&#34;,&#34;viewCounter&#34;:468954}],&#34;meta&#34;:{&#34;id&#34;:&#34;58f37237-19f6-4954-ab33-beddc0455e30&#34;,&#34;totalCount&#34;:106,&#34;status&#34;:200}}
+</code></pre></div><p>色々変えてみます。likeCounterというのでいいね数が見れます。いよわさんはきゅうくらりんが人気ですね。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text>$ curl -A &#39;apiguide application&#39; &#39;https://api.search.nicovideo.jp/api/v2/snapshot/video/contents/search?targets=title&amp;fields=contentId,title,viewCounter,likeCounter&amp;_sort=-viewCounter&amp;_offset=0&amp;_limit=3&amp;_context=apiguide_application&#39; --data-urlencode &#34;q=いよわ&#34;
+
+{&#34;data&#34;:[{&#34;contentId&#34;:&#34;sm39257413&#34;,&#34;title&#34;:&#34;きゅうくらりん / いよわ feat.可不&#34;,&#34;viewCounter&#34;:1937821,&#34;likeCounter&#34;:5616},{&#34;contentId&#34;:&#34;sm35933131&#34;,&#34;title&#34;:&#34;IMAWANOKIWA / いよわ feat.初音ミク&#34;,&#34;viewCounter&#34;:655659,&#34;likeCounter&#34;:1416},{&#34;contentId&#34;:&#34;sm37944844&#34;,&#34;title&#34;:&#34;1000年生きてる / いよわ feat.初音ミク&#34;,&#34;viewCounter&#34;:612379,&#34;likeCounter&#34;:3098}],&#34;meta&#34;:{&#34;id&#34;:&#34;ddbf8c1e-a17b-49e4-887c-345f80897c15&#34;,&#34;totalCount&#34;:167,&#34;status&#34;:200}}
+</code></pre></div><p>これでniconico動画APIを叩くことができました。CUIは慣れると簡単なのでぜひ使えるようになりましょう。</p>
+</article>
+<footer>
+<p class=license>
+This document is licensed under
+<a href=https://creativecommons.org/licenses/by/4.0/ target=_blank rel="noopener noreferrer">CC-BY-4.0</a>
+</p>
+<p class=repository>
+Link to
+<a href=https://github.com/uta8a/scrap.docs target=_blank rel="noopener noreferrer">GitHub Repository</a>
+</p>
+</footer>
+</main>
+</body>
+</html>
