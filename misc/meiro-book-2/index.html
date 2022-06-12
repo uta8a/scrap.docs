@@ -1,0 +1,100 @@
+<!doctype html><html lang=ja><head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<link rel=stylesheet href=/sass/main.min.87f827dfff5e923974e91a81f7dd7e1efae5c1ae18aea478ea157865c24b8363.css>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css integrity=sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB crossorigin=anonymous>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js integrity=sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous onload=renderMathInElement(document.body)></script>
+<script defer>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script>
+<script defer src=/js/prism.min.js></script>
+<link rel=stylesheet href=/css/prism.min.css>
+</head>
+<body>
+<main id=content>
+<p class=category>
+カテゴリー: <a href=/misc>misc</a>
+</p>
+<article class=suuri><h1 id=第2回詳解セキュリティコンテスト輪読会の記録>第2回詳解セキュリティコンテスト輪読会の記録</h1>
+<p>今回はdevtoolsとパケットとcookieの話題が中心でした。</p>
+<h2 id=5章>5章</h2>
+<h3 id=web問でのctfの形式>web問でのCTFの形式</h3>
+<p>revみたいにフラグがブラウザの中にあってそれを取り出すのが難しい場合がある。また、問題の形式としてはサーバとクライアントという見方をすると、通信を行うrev問(game cheat問)と近い部分もある</p>
+<h3 id=webサービスで注意すること>webサービスで注意すること</h3>
+<p>新機能、よく突然のメンテナンスモードに入るサイト、フレームワークを使っていないサイトなどは十分なテストがされていないのでバグや脆弱性を含みやすいので注意。<br>
+バグバウンティでも新機能に賞金級のバグが見つかっているのを見かけるし、たとえばTwitterのfleetはリリース当時色々バグがあって話題になった。(CDNにフリートの内容が残るとか、<a href=https://blog.ryotak.me/post/twitter-privesc/>RyotaKさんのTwitterのフリート機能に対する権限昇格</a>とか)</p>
+<h2 id=6章前半>6章前半</h2>
+<h3 id=http周り>HTTP周り</h3>
+<h4 id=cookieの話-httponly>cookieの話: HttpOnly</h4>
+<p>HttpOnlyならOK！というイメージがあったが、そうでもない。徳丸さんのYoutubeが分かりやすい。 <a href=https://youtu.be/4JREwhSC2dQ>参考 - クロスサイトスクリプティング(XSS)対策としてCookieのHttpOnly属性でどこまで安全になるのか</a><br>
+Secure属性もつけていても脆弱になるケースがあるらしい。</p>
+<p>Cookie関連<br>
+<a href=https://www.ipa.go.jp/security/ciadr/20030808cookie-secure.html>参考 - IPA: 経路のセキュリティと同時にセキュアなセッション管理を</a><br>
+<a href=https://blog.tokumaru.org/2011/10/cookiedomain.html>参考 - CookieのDomain属性は <em>指定しない</em> が一番安全</a></p>
+<h4 id=cookieと広告の話>cookieと広告の話</h4>
+<p>FLOCはTopics APIに代わって、これから広告屋さんにとってはつらい時代が来そう。<br>
+ポイントサイトとかを見ると、ブラウザを閉じないでください、など事情が分かっていると面白い文言がある。(サードパーティcookieを消さないように色々注意をしている)</p>
+<h4 id=cdnとキャッシュ>CDNとキャッシュ</h4>
+<p>CDNとキャッシュ周りの設定は難しい <a href=https://engineering.mercari.com/blog/entry/2017-06-22-204500/>参考 - CDN切り替え作業における、Web版メルカリの個人情報流出の原因につきまして</a></p>
+<h4 id=url>URL</h4>
+<p><code>http://username:password@localhost</code> のようにしてローカルホストのBasic認証付きアプリケーションにアクセスできる。<br>
+これは <code>http://example.com@evil.example</code> のようにすることで、見た目はexample.comだけどevil.exampleに飛ばせるような見間違いを誘発するURLが作れそうで気をつけないととなった <a href=https://datatracker.ietf.org/doc/html/rfc3986#section-7.6>参考 - RFC 3986 の Semantic Attacks</a></p>
+<h4 id=quicやパケットキャプチャ>QUICやパケットキャプチャ</h4>
+<p>QUICが気になって調べたが難しい。以下良さそうな資料</p>
+<ul>
+<li>voluntasさんのQUICに関する勉強ルートについて</li>
+</ul>
+<blockquote>
+<p>QUIC 勉強したい人はまず TLS 1.3 から入らないと QUIC の RFC が何言ってるかわからないと思う。順番としては TLS 1.2 (RFC 5246) -> TLS 1.3 (RFC 8446) -> QUIC TLS (RFC 9001) -> QUIC (RFC 9000) になると思う。<br>
+<a href=https://twitter.com/voluntas/status/1404656930849652738>https://twitter.com/voluntas/status/1404656930849652738</a></p>
+</blockquote>
+<ul>
+<li>SSL/TLSを学ぶには <a href=https://www.lambdanote.com/products/tls>プロフェッショナルSSL/TLS</a> が良さそう</li>
+<li>IIJ Engineers Blog <a href=https://eng-blog.iij.ad.jp/quic>QUICをゆっくり解説 – 新しいインターネット通信規格</a></li>
+<li>herumiさんの <a href=https://zenn.dev/herumi/articles/tls1_3_crypto>イラストで正しく理解するTLS 1.3の暗号技術</a></li>
+<li><a href=https://zenn.dev/0a24/articles/tls1_3-rfc8448>TLS1.3の中身をみよう（RFC8448）</a></li>
+</ul>
+<p>後はRFCやwiresharkで実際にパケットを見ながら調べると良さそう。<br>
+TLS1.3を理解するにはTLS1.2を理解してから取り組むとよい。</p>
+<h4 id=パケット関連-racoon-attack>パケット関連: Racoon Attack</h4>
+<p>TLS1.2とそれ以前で発生する脆弱性 <a href=https://raccoon-attack.com/>Racoon Attack</a> はタイミング攻撃っぽい？ので実際に実現させるのは結構難しいのでは。</p>
+<h4 id=パケット関連-scapy>パケット関連: scapy</h4>
+<p><a href=https://scapy.net/>Scapy</a>というPythonライブラリがある。wiresharkなどで当たりをつけてからscapyでfilterや抽出、パケット生成などの取り扱いを自動化すると便利そう。</p>
+<p><a href=https://www.oreilly.co.jp/books/9784873119731/>サイバーセキュリティプログラミング</a> でscapyを使うのでパケットを扱うプログラミングに慣れることができておすすめ</p>
+<p>scapyを使ったwriteup <a href=https://tan.hatenadiary.jp/entry/2021/05/02/234916#Forensicsillegal-imageHard>参考 - writeup: [Forensics]illegal image[Hard]</a></p>
+<h3 id=htmlやxmlなど>HTMLやXMLなど</h3>
+<p>ここは特になし。CSS InjectionやXXEは後半で詳しく触れられている。</p>
+<h3 id=webクライアントdevtools-python-js>Webクライアント(devtools, python, js)</h3>
+<h4 id=devtoolsでお気に入りの機能はなんですか>devtoolsでお気に入りの機能はなんですか？</h4>
+<ul>
+<li>networkタブ: サーバとクライアントの通信が見れるのでついつい眺めてしまう。filterできたり、curlやfetchの形式で右クリックでcopyできるのも良い。</li>
+<li>animationタブ: CSS Animationの一時停止や最後の状態を見るとか逆再生がシークバー動かすことでできる</li>
+<li>JS breakpointは使ったことないけど難読化JSで使えそう</li>
+</ul>
+<h4 id=wasmのチート問>wasmのチート問</h4>
+<p>CTFの問題的に、難読化JSからwasm問にトレンドが移っている？Wasmで使えそうなCheat Engine的なブラウザ拡張</p>
+<blockquote>
+<p>そのWebAssemblyのチート問ですが、問題中で紹介されていたCetus(<a href=https://github.com/Qwokka/Cetus>https://github.com/Qwokka/Cetus</a>)というWebAssembly向けのCheat Engine的なブラウザ拡張を使って解きました<br>
+<a href=https://twitter.com/st98_/status/1265749997624033280>https://twitter.com/st98_/status/1265749997624033280</a></p>
+</blockquote>
+<h4 id=twitterのcookie>Twitterのcookie</h4>
+<p>Twitterのcookieを眺めると、他の人に知られてはいけなさそうなものの他に、単なるクライアントの情報として知られても良さそうなもの(<code>lang: ja</code> など)もある<br>
+cookieは全てが機密情報というわけではない。<br>
+ただ、auth-token, auth-multi, kdt(おそらくログイン状態のトラッキング？)についてはHttpOnly属性とSecure属性がついていたので他の人に知られてはいけない感じがする。</p>
+<h4 id=jsのpromise>JSのPromise</h4>
+<p>非同期処理が初めてだったのでPromise周りを調べた。<br>
+fetch APIはPromiseオブジェクトを返却し、非同期処理は定期的にイベントが完了したか問い合わせることで実現されている。(非同期処理には色々な実現方法があり、そのうちの一つをJavaScriptは採用している)</p>
+</article>
+<footer>
+<p class=license>
+This document is licensed under
+<a href=https://creativecommons.org/licenses/by/4.0/ target=_blank rel="noopener noreferrer">CC-BY-4.0</a>
+</p>
+<p class=repository>
+Link to
+<a href=https://github.com/uta8a/scrap.docs target=_blank rel="noopener noreferrer">GitHub Repository</a>
+</p>
+</footer>
+</main>
+</body>
+</html>
