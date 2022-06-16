@@ -2,7 +2,7 @@
 layout: misc
 title: SECCON Beginners CTF 2022 復習 - textex
 description: SECCON Beginners CTF 2022 web/textexの復習
-draft: false
+draft: true
 changelog:
   - summary: 見出し作成
     date: 2022-06-10T04:33:52+09:00
