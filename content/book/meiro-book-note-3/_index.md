@@ -10,6 +10,8 @@ changelog:
     date: 2022-05-29T20:11:50+09:00
   - summary: 6章のみにした
     date: 2022-06-16T13:42:50+09:00
+  - summary: 話題を追加
+    date: 2022-06-17T20:16:01+09:00
 ---
 
 # 詳解セキュリティコンテスト輪読会資料#3
@@ -31,9 +33,16 @@ changelog:
 
 #### 話題
 
+- p.86 nginxの設定不備問題
+  - 最近だと [CPCTF2022](https://trap.jp/post/1237/#webforbidden-2-easy) で出題された。
+  - [graneedさんのブログ](https://graneed.hatenablog.com/entry/2019/12/29/115100#nginx%E3%81%AE%E8%A8%AD%E5%AE%9A%E4%B8%8D%E5%82%99) も参照
 - p.88 コード6-18のwebappが動かないので動くようにした
   - これは割と些末な話なのでskipしていいかも
 - p.90 Burp: [WebSecurity Academy](https://portswigger.net/web-security) がいい学習リソースだよという紹介
 - p.102 decoder: 単なるencode/decodeは [CyberChef](https://gchq.github.io/CyberChef/) も便利。送信もセットで楽に行える点でBurpに強みがある。
+- p.103 データベース問でCPCTFのupsolveしたい
+  - [Web_Generate_ORiginal_Memo](https://github.com/CPCTF2022/Web_Generate_ORiginal_Memo)
+  - [解説](https://trap.jp/post/1572/)
 - p.113 Webブラウザセキュリティ: [Webブラウザセキュリティ ― Webアプリケーションの安全性を支える仕組みを整理する](https://www.lambdanote.com/products/wbs) が参考になりそう。
+  - CORS周り図を書いて理解したい。まだ理解できてない。
 - p.113 Webブラウザセキュリティ: ちょっと外れる話題だけど、Shadow DOM Closedとchrome extensionの話題と、prototype pollutionによりclosedは回避できるのでDOMにセキュアな情報は置いてはいけないという話
