@@ -12,6 +12,8 @@ changelog:
     date: 2022-06-16T13:42:50+09:00
   - summary: 話題を追加
     date: 2022-06-17T20:16:01+09:00
+  - summary: SOPとCORSの話スライド追加
+    date: 2022-06-18T18:38:16+09:00
 ---
 
 # 詳解セキュリティコンテスト輪読会資料#3
@@ -44,5 +46,12 @@ changelog:
   - [Web_Generate_ORiginal_Memo](https://github.com/CPCTF2022/Web_Generate_ORiginal_Memo)
   - [解説](https://trap.jp/post/1572/)
 - p.113 Webブラウザセキュリティ: [Webブラウザセキュリティ ― Webアプリケーションの安全性を支える仕組みを整理する](https://www.lambdanote.com/products/wbs) が参考になりそう。
-  - CORS周り図を書いて理解したい。まだ理解できてない。
+  - CORS周り図を書いて理解したい。まだ理解できてない。 → ストーリーラインは理解した！より複雑なCORSはまだ理解できてない。
+  - Webブラウザセキュリティ本の2章はじめに、なぜSOPを導入するのかの例が詳解セキュリティコンテストよりも包括的に書かれていて、読んでいて納得感があり分かりやすい。
 - p.113 Webブラウザセキュリティ: ちょっと外れる話題だけど、Shadow DOM Closedとchrome extensionの話題と、prototype pollutionによりclosedは回避できるのでDOMにセキュアな情報は置いてはいけないという話
+
+#### SOPとCORSの話の流れ
+
+まとめてみた
+
+![p-1](./p-1.jpg)
