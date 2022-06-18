@@ -1,0 +1,110 @@
+<!doctype html><html lang=ja><head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<link rel=stylesheet href=/sass/main.min.87f827dfff5e923974e91a81f7dd7e1efae5c1ae18aea478ea157865c24b8363.css>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css integrity=sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB crossorigin=anonymous>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js integrity=sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous onload=renderMathInElement(document.body)></script>
+<script defer>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script>
+<script defer src=/js/prism.min.js></script>
+<link rel=stylesheet href=/css/prism.min.css>
+</head>
+<body>
+<main id=content>
+<p class=category>
+カテゴリー: <a href=/misc>misc</a>
+</p>
+<article class=suuri><h1 id=第3回詳解セキュリティコンテスト輪読会の記録>第3回詳解セキュリティコンテスト輪読会の記録</h1>
+<p>今回はp.84 - p.122までが範囲で、内容としてはBurpとCSPが中心でした。</p>
+<h2 id=6章後半>6章後半</h2>
+<h3 id=nginxの仕様上存在する不注意で起こりうるパストラバーサル>nginxの仕様上存在する、不注意で起こりうるパストラバーサル</h3>
+<p>nginxは <code>location</code> に対して置換を行う <code>alias</code> ディレクティブの仕様で、パストラバーサルが発生する alias traversal という脆弱性があります。</p>
+<p><a href=https://trap.jp/post/1237/#webforbidden-2-easy>CPCTF2022</a> で出題歴があり、 <a href=https://graneed.hatenablog.com/entry/2019/12/29/115100#nginx%E3%81%AE%E8%A8%AD%E5%AE%9A%E4%B8%8D%E5%82%99>graneedさんの記事 - 11-1.nginxの設定不備</a> も併せて読むと良い。また、Apacheでも似たようなaliasに関するパストラバーサルについての問題が出題されたことがあるそう。</p>
+<h3 id=burp-suiteの学習方法>Burp Suiteの学習方法</h3>
+<ul>
+<li><a href=https://tryhackme.com/>TryHackMe</a> が学習の初手としていい感じ。教材みたいに学習を進められる。</li>
+<li><a href=https://portswigger.net/web-security>WebSecurityAcademy</a> はBurpの開発元が出してて最近も更新されているしとても良い問題を解く形式の教材。せっかくならBurp Proの1ヶ月お試し期間を登録して、Burp Proで解いてみるのも良さそう。
+<ul>
+<li>BurpのProとCommunity Editionの違いは、Proになると機能制限がなくなる点が異なっている。(無料版だと速度が遅いのがなくなる、など)</li>
+</ul>
+</li>
+</ul>
+<h3 id=burpのdecoderencoder>Burpのdecoder/encoder</h3>
+<p>通信を伴わないなら、<a href=https://gchq.github.io/CyberChef/>CyberChef</a> も便利。ブロック状にencode/decode処理などを積み上げられるのが便利。</p>
+<p>余談だけど、 <a href=https://blog.p6.is/writeups-for-hayyim-security-ctf-2022/>CyberChefの0dayが含まれる問題</a> がCTFで出たことがある。</p>
+<h3 id=corsの疑問-postにはプリフライトリクエストなくていいのか>CORSの疑問: POSTにはプリフライトリクエストなくていいのか</h3>
+<p><a href=https://youtu.be/ryztmcFf01Y>CORSの原理を知って正しく使おう - 徳丸さんのyoutube</a> で、「単純でないリクエスト(PUTなど)はプリフライトリクエストが必要だけどPOSTとかは単純なリクエストなのでいらない」という趣旨の話があり、PUTでプリフライトリクエストが必要な理由は分かったが、なぜPOSTではつけなくていいのか？ということが分からず少し調べた。</p>
+<p>結論としては、これまでもhtmlでクロスオリジンなリクエストは発生していてセキュリティ対策されていると思われるので新たな脅威としては扱わないということなのでは？という感じ。(あまり確証が得られたわけではない)</p>
+<p>参考</p>
+<ul>
+<li><a href=https://stackoverflow.com/questions/39725955/why-is-there-no-preflight-in-cors-for-post-requests-with-standard-content-type>Why is there no preflight in CORS for POST requests with standard content-type</a></li>
+<li><a href=https://qiita.com/att55/items/2154a8aad8bf1409db2b>なんとなく CORS がわかる&mldr;はもう終わりにする。</a>
+<ul>
+<li>CORSはコルスと呼ばれているっぽい？</li>
+<li>英語圏だとコーズとかコォスと言うのかもというのも見かけた</li>
+<li>徳丸さんのYoutubeだとシーオーアールエスと読んでいる</li>
+</ul>
+</li>
+<li><a href=https://zenn.dev/qnighy/articles/6ff23c47018380>CORSの仕様はなぜ複雑なのか</a>
+<ul>
+<li>CORSの歴史的な話も載っている。「preflightが不要なケース」がそれに該当しそう。</li>
+</ul>
+</li>
+</ul>
+<h3 id=他にcors関連の話題>他にCORS関連の話題</h3>
+<ul>
+<li>フォームはinputにtokenを入れて、CSRF対策とかbotの連続送信やユーザが誤送信で二重に送ってしまうのを防いだりするのが一般的。</li>
+<li>CORSが開発で問題になるパターン
+<ul>
+<li>localhostで別々のポートで起動しているサービス同士の通信でCORSエラーで詰まる</li>
+<li>goのフレームワークEchoのmiddlewareでは <code>e.Use(middleware.CORS())</code> というようにデフォルトを使うと全てのオリジンと全てのメソッドを許可してしまう。本番環境では細かく制御する必要がありそう。</li>
+<li>認証など、一旦サービスAに飛んでからサービスBにリダイレクトして認証処理を行いサービスAに戻るタイプのやつはOAuthでありがちだけど、サービスAだけ許可してサービスBは許可してないからCORSエラーが出るとかはありそう。</li>
+<li>フロントエンド開発でS3から画像取得する時にCORSエラーで困ることがある。S3側で設定をする必要がある。</li>
+</ul>
+</li>
+<li>portがOriginに含まれるのはなぜ？別サブドメインで別事業者のサービスが起動はわかるけど、別ポートからの攻撃ってありうるのだろうか？(この疑問は歴史的事情の気配がするので気が向いたら調べることにした)</li>
+<li>ブラウザの歴史とかが大事そう。Webブラウザセキュリティが良い本なので読みたい。</li>
+</ul>
+<h2 id=メモ>メモ</h2>
+<h3 id=payloadallthethingsについて>PayloadAllTheThingsについて</h3>
+<p><a href=https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection>PayloadAllTheThings - SQL Injectionの項</a> を見ると、色々なペイロードが載っていて良い。</p>
+<p><a href=https://github.com/satoki/ctf4b_2022_satoki_writeups/tree/3dbf741d8f408dc8e717691b25cbe7549eed85fe/web/textex#%E8%A7%A3%E6%B3%95>ctf4b textexの作問者writeup</a> でもPayloadAllTheThingsが紹介されていた(<a href=https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/LaTeX%20Injection>LaTeX Injection</a>)</p>
+<h3 id=webサイトやapiへのアクセスどこからがまずい>WebサイトやAPIへのアクセス、どこからがまずい？</h3>
+<p>Burpなどで連続でリクエストを大量に送ることをうっかりしてしまうと、DoS判定されるかもしれない。<br>
+<a href=https://ja.wikipedia.org/wiki/%E5%B2%A1%E5%B4%8E%E5%B8%82%E7%AB%8B%E4%B8%AD%E5%A4%AE%E5%9B%B3%E6%9B%B8%E9%A4%A8%E4%BA%8B%E4%BB%B6>岡崎市立中央図書館事件 - wikipedia</a> 通称Librahack事件なども考慮して、リクエストとリクエストの間には時間を空ける、リクエスト数も大量に送らない、ということに気をつけた方がいい。</p>
+<p>CTFの問題の文脈でも、数万リクエスト送ることが想定解になることはほとんどないので、原理上大量のリクエストを発行したら解けるとしても別の想定解を疑った方がいいことが多い。</p>
+<p>publicなAPIの一日の制限数などをみるとどこまで許されるのか参考にできるかもしれない。ただサービスごとに許容範囲は異なっていそう。</p>
+<h3 id=ipaが出している安全なウェブサイトの作り方はいいぞ>IPAが出している「安全なウェブサイトの作り方」はいいぞ</h3>
+<p><a href=https://www.ipa.go.jp/security/vuln/websecurity.html>IPA - 安全なウェブサイトの作り方</a> に、届出の多かった脆弱性をもとにウェブサイトの開発者や運営者向けのセキュリティの資料が出ています。</p>
+<p>CSRFってなんだろう、ということをつまみ食いで調べてみるとかでも十分役立つし、チェックリストもあるので良さそう。</p>
+<p><a href=https://blog.flatt.tech/entry/anzenna_website_no_tsukurikata>Flatt Securityからもおすすめする記事が出ています</a></p>
+<h3 id=cakectf2022楽しみですね>CakeCTF2022楽しみですね</h3>
+<p><a href=https://ctftime.org/event/1683/>CakeCTF2022</a> が9/3あたりにあるそうです。<br>
+<a href=https://github.com/theoremoon/cakectf-2021-public>CakeCTF2021の問題リポジトリ</a> は公開されているので復習して本番に備えたいですね。</p>
+<h3 id=iccのattackdefenseのソースコードが公開>ICCのAttack&Defenseのソースコードが公開</h3>
+<p><a href=https://github.com/CybersecNatLab/ICC2022-AD-CTF>ICC2022 A/D Services</a><br>
+CTFのAttack&Defense形式のソースコードが公開されるのは珍しいと感じました。<br>
+動かせるか試したいところです</p>
+<h3 id=macでは5000番ポートが使われている>Macでは5000番ポートが使われている</h3>
+<p><a href=https://www.keisuke69.net/entry/2021/10/29/012608>MacをMontereyにアップデートしたらFlaskが5000番ポートで起動できなくなった</a><br>
+AirPlayのレシーバーが5000番を占有しているため。</p>
+<h3 id=標準sqlというのがある>標準SQLというのがある</h3>
+<p><a href=http://www.sql-post.biz/2019/05/02/%E6%A8%99%E6%BA%96sql/>標準SQLとは</a><br>
+SQLも標準があるらしいが、強制力がないので標準だけ知っていればOKというわけでもなく、個別のSQL文法を学ぶ必要がある。</p>
+<h3 id=shadow-dom-closedはセキュリティ用途ではない>Shadow DOM closedはセキュリティ用途ではない</h3>
+<p><a href=https://developer.mozilla.org/ja/docs/Web/Web_Components/Using_shadow_DOM>Shadow DOM の open/closed</a> はセキュリティ用途では使えない。</p>
+</article>
+<footer>
+<p class=license>
+This document is licensed under
+<a href=https://creativecommons.org/licenses/by/4.0/ target=_blank rel="noopener noreferrer">CC-BY-4.0</a>
+</p>
+<p class=repository>
+Link to
+<a href=https://github.com/uta8a/scrap.docs target=_blank rel="noopener noreferrer">GitHub Repository</a>
+</p>
+</footer>
+</main>
+</body>
+</html>
