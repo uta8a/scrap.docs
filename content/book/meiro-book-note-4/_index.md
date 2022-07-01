@@ -2,10 +2,12 @@
 layout: book
 title: 詳解セキュリティコンテスト輪読会資料#4
 description: 輪読会第4回の資料
-draft: true
+draft: false
 changelog:
   - summary: 見出し作成
     date: 2022-06-16T13:41:33+09:00
+  - summary: 移行
+    date: 2022-07-01T19:41:31+09:00
 ---
 
 # 詳解セキュリティコンテスト輪読会資料#4
@@ -35,14 +37,11 @@ changelog:
 
 ### 8章
 
-**一言まとめ**: XSSの概要、CSPの仕様、いくつかのCSPバイパス手法
+**一言まとめ**: XSSの概要
 
 #### 確認事項
 
-手を動かすポイント(ここでやった人いるか & 詰まった人いるか確認)
-
-- [ ] p.147 CSPのバイパス base-uri(>やった)
-- [ ] p.151 DOM Clobberingによるstrict-dynamicのバイパス(>やった)
+なし
 
 #### 話題
 
@@ -51,8 +50,6 @@ changelog:
   - 元はセキュリティ・ミニキャンプ in 岡山 2018 演習コンテンツだったのが公開されていたもの
 - p.136 クローラーってどういう実装なんだろう
   - Wani Hackaseのリポジトリに実装例があった [wani-hackase/wanictf21spring-writeup](https://github.com/wani-hackase/wanictf21spring-writeup/blob/b6888c5d23e28935e4729d46e47502bef89a5481/web/wani_request_2/src/api/app.js)
-- CSPは Webブラウザセキュリティ を読もう！(まだ積んでます)
-- Script gadget, 概念としてはpwnのROP gadgetに近そう
 - Pythonだけのコードを動かすときの手順は以下でやっている
 
 ```text
@@ -63,11 +60,6 @@ poetry install
 poetry run python3 app.py
 ```
 
-- baseの例が動かないと思ったら、baseタグ前にlinkなどのurlを含むやつ置くとダメらしいとMDNに書いてある。
-
-> Warning: 以下の属性のいずれかが指定されている場合、この要素は URL の属性値を持つ他の要素、例えば <link> の href 属性などの前に置く必要があります。
-> https://developer.mozilla.org/ja/docs/Web/HTML/Element/base
-
 #### 確認クイズ
 
 - XSSの種類、3つ答えよ
@@ -77,16 +69,3 @@ poetry run python3 app.py
 - Stored
 - DOM based
 {{% /details %}}
-
-- 本書で登場したCSPのバイパス手法を3つ答えよ
-
-{{% details summary="解答" %}}
-- ホストからのガジェット組み立て
-- base-uriディレクティブの設定不備
-- DOM Clobbering
-{{% /details %}}
-
-
-## メモ
-
-
