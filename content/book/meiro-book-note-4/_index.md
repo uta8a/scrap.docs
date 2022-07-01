@@ -24,7 +24,7 @@ changelog:
 
 #### 話題
 
-- nginxの設定不備問題
+- nginxの設定不備問題(以前も触れたけど再掲)
   - graneedさんの記事 [nginxの設定不備](https://graneed.hatenablog.com/entry/2019/12/29/115100#nginx%E3%81%AE%E8%A8%AD%E5%AE%9A%E4%B8%8D%E5%82%99)
   - これはCPCTF 2022で出題歴あり [Web/Forbidden 2 (easy) - traP作問者writeup](https://trap.jp/post/1237/)
 - `/proc` の話でmisc問で見かけるもの

@@ -27,7 +27,7 @@ changelog:
 - Script gadget, 概念としてはpwnのROP gadgetに近そう
 - baseの例が動かないと思ったら、baseタグ前にlinkなどのurlを含むやつ置くとダメらしいとMDNに書いてある。
 
-> Warning: 以下の属性のいずれかが指定されている場合、この要素は URL の属性値を持つ他の要素、例えば <link> の href 属性などの前に置く必要があります。
+> Warning: 以下の属性のいずれかが指定されている場合、この要素は URL の属性値を持つ他の要素、例えば `<link>` の href 属性などの前に置く必要があります。
 > https://developer.mozilla.org/ja/docs/Web/HTML/Element/base
 
 #### 確認クイズ
