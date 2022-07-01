@@ -1,0 +1,42 @@
+---
+layout: book
+title: 詳解セキュリティコンテスト輪読会資料#5
+description: 輪読会第5回の資料
+draft: true
+changelog:
+  - summary: 見出し作成
+    date: 2022-07-01T19:36:41+09:00
+---
+
+# 詳解セキュリティコンテスト輪読会資料#5
+
+### 8章
+
+**一言まとめ**: CSPの仕様、いくつかのCSPバイパス手法
+
+#### 確認事項
+
+手を動かすポイント(ここでやった人いるか & 詰まった人いるか確認)
+
+- [ ] p.147 CSPのバイパス base-uri(>やった)
+- [ ] p.151 DOM Clobberingによるstrict-dynamicのバイパス(>やった)
+
+#### 話題
+
+- CSPは Webブラウザセキュリティ を読もう！(まだ積んでます)
+- Script gadget, 概念としてはpwnのROP gadgetに近そう
+- baseの例が動かないと思ったら、baseタグ前にlinkなどのurlを含むやつ置くとダメらしいとMDNに書いてある。
+
+> Warning: 以下の属性のいずれかが指定されている場合、この要素は URL の属性値を持つ他の要素、例えば <link> の href 属性などの前に置く必要があります。
+> https://developer.mozilla.org/ja/docs/Web/HTML/Element/base
+
+#### 確認クイズ
+
+
+- 本書で登場したCSPのバイパス手法を3つ答えよ
+
+{{% details summary="解答" %}}
+- ホストからのガジェット組み立て
+- base-uriディレクティブの設定不備
+- DOM Clobbering
+{{% /details %}}
