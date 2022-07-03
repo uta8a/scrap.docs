@@ -1,0 +1,85 @@
+---
+layout: misc
+title: 第4回詳解セキュリティコンテスト輪読会の記録
+description: 輪読会の記録。今回は軽めでした。
+draft: false
+changelog:
+  - summary: 見出し作成
+    date: 2022-07-03T18:21:24+09:00
+  - summary: 記事完成
+    date: 2022-07-03T19:54:11+09:00
+---
+
+# 第4回詳解セキュリティコンテスト輪読会の記録
+
+今回は p.123 - p.141が範囲。内容としてはディレクトリトラバーサルとXSSの基礎(CSP除く)でした。
+
+## 7章
+
+### ディレクトリトラバーサル周り
+
+- nginxのalias traversalの話
+
+### `proc` の話
+
+- `/proc/self/environ` で環境変数が取れる
+- procfsは本当に色々あるので調べるとよい
+  - CTFでも出題歴がある SECCON Beginners CTF 2020 misc readme
+
+### 秘密情報のファイル
+
+`/etc/passwd` など、知られてはいけないファイルはどういうものがあるのだろう？
+
+## 8章
+
+### XSSの話
+
+- 蓄積型と反射型の違いは何？
+攻撃者の用意したURLを踏む必要があるのが反射型、そうではなく普通に過ごしていても攻撃されうるのが蓄積型
+
+- 反射型とDOM-basedの違いは何？
+HTMLが被害者の元にレンダリングされるときに、DOM操作により不正なHTMLが完成するのがDOM-based, サーバからHTMLが返されるときにもう不正なHTMLになっているのが反射型
+
+### xss.shift-js.infoがサービス終了している
+
+lmt_swallowさんのxss.shift-js.infoがサービス終了したの悲しいねという話
+
+### クローラーの実装
+
+CTFでXSS問で必要になるクローラーはどういう実装なんだろう？ → Wani Hackaseの実装があった [実装例](https://github.com/wani-hackase/wanictf21spring-writeup/blob/b6888c5d23e28935e4729d46e47502bef89a5481/web/wani_request_2/src/api/app.js)
+
+### IPAのDOM-based XSSに関する資料
+
+[IPAテクニカルウォッチ DOM Based XSSに関するレポート(pdf)](https://www.ipa.go.jp/files/000024729.pdf)
+ここには、chrome extensionなどで発火するタイプもDOM Based XSSに分類されるらしい
+
+### 最近でたXSSの問題
+
+[Xtra Salty Sardines](https://ctftime.org/task/20957) サニタイズをかいくぐる問題
+
+### やられアプリ
+
+[Stored(蓄積型)-XSSの危険性](https://techblog.securesky-tech.com/entry/2020/04/15/)
+他にもOWASP webgoatやjuice shopなど、やられアプリで検索するとよい。
+
+### RAWでHTMLを出力したいケースはどんなとき？
+
+[フレームワークに見る Web セキュリティ対策](https://qiita.com/Jxck_/items/ec8e928f69d099b25764)
+Rubyのようにhtmlを整形して返すものはrawでhtmlを扱いたいケースがありそう。
+具体的なサービスとして、markdownが書けるサービスがHTMLを受け入れるケース、 [microCMS](https://blog.microcms.io/input-richeditor-and-html/) のようにAPIでHTMLが飛んできて、それを叩いて描画して自分のブログにしたいとき、などがある。
+
+## 雑談
+
+### BPF最近セキュリティでもアツい
+
+[BPFdoor バックドアの脅威：ファイアウォールをすり抜ける Linux マルウェアの詳細](https://iototsecnews.jp/2022/05/12/bpfdoor-stealthy-linux-malware-bypasses-firewalls-for-remote-access/)
+
+### pawnyable
+
+[ptr-yudai/pawnyable](https://github.com/ptr-yudai/pawnyable)
+
+https://pawnyable.cafe/
+
+> Pawnyableはpwn(Binary Exploitation)を勉強するための資料です。既にある程度勉強済みの人が対象です。
+
+詳解セキュリティコンテストを読み終えてある程度初心者用問題解いたらこの資料が読み始められるところに達しそうなので詳解セキュリティコンテスト読み切りたいですね。VM escapeとか気になる。
