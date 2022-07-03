@@ -1,0 +1,87 @@
+<!doctype html><html lang=ja><head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<link rel=stylesheet href=/sass/main.min.87f827dfff5e923974e91a81f7dd7e1efae5c1ae18aea478ea157865c24b8363.css>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css integrity=sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB crossorigin=anonymous>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js integrity=sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous onload=renderMathInElement(document.body)></script>
+<script defer>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script>
+<script defer src=/js/prism.min.js></script>
+<link rel=stylesheet href=/css/prism.min.css>
+</head>
+<body>
+<main id=content>
+<p class=category>
+カテゴリー: <a href=/misc>misc</a>
+</p>
+<article class=suuri><h1 id=第4回詳解セキュリティコンテスト輪読会の記録>第4回詳解セキュリティコンテスト輪読会の記録</h1>
+<p>今回は p.123 - p.141が範囲。内容としてはディレクトリトラバーサルとXSSの基礎(CSP除く)でした。</p>
+<h2 id=7章>7章</h2>
+<h3 id=ディレクトリトラバーサル周り>ディレクトリトラバーサル周り</h3>
+<ul>
+<li>nginxのalias traversalの話</li>
+</ul>
+<h3 id=proc-の話><code>proc</code> の話</h3>
+<ul>
+<li><code>/proc/self/environ</code> で環境変数が取れる</li>
+<li>procfsは本当に色々あるので調べるとよい
+<ul>
+<li>CTFでも出題歴がある SECCON Beginners CTF 2020 misc readme</li>
+</ul>
+</li>
+</ul>
+<h3 id=秘密情報のファイル>秘密情報のファイル</h3>
+<p><code>/etc/passwd</code> など、知られてはいけないファイルはどういうものがあるのだろう？</p>
+<h2 id=8章>8章</h2>
+<h3 id=xssの話>XSSの話</h3>
+<ul>
+<li>
+<p>蓄積型と反射型の違いは何？<br>
+攻撃者の用意したURLを踏む必要があるのが反射型、そうではなく普通に過ごしていても攻撃されうるのが蓄積型</p>
+</li>
+<li>
+<p>反射型とDOM-basedの違いは何？<br>
+HTMLが被害者の元にレンダリングされるときに、DOM操作により不正なHTMLが完成するのがDOM-based, サーバからHTMLが返されるときにもう不正なHTMLになっているのが反射型</p>
+</li>
+</ul>
+<h3 id=xssshift-jsinfoがサービス終了している>xss.shift-js.infoがサービス終了している</h3>
+<p>lmt_swallowさんのxss.shift-js.infoがサービス終了したの悲しいねという話</p>
+<h3 id=クローラーの実装>クローラーの実装</h3>
+<p>CTFでXSS問で必要になるクローラーはどういう実装なんだろう？ → Wani Hackaseの実装があった <a href=https://github.com/wani-hackase/wanictf21spring-writeup/blob/b6888c5d23e28935e4729d46e47502bef89a5481/web/wani_request_2/src/api/app.js>実装例</a></p>
+<h3 id=ipaのdom-based-xssに関する資料>IPAのDOM-based XSSに関する資料</h3>
+<p><a href=https://www.ipa.go.jp/files/000024729.pdf>IPAテクニカルウォッチ DOM Based XSSに関するレポート(pdf)</a><br>
+ここには、chrome extensionなどで発火するタイプもDOM Based XSSに分類されるらしい</p>
+<h3 id=最近でたxssの問題>最近でたXSSの問題</h3>
+<p><a href=https://ctftime.org/task/20957>Xtra Salty Sardines</a> サニタイズをかいくぐる問題</p>
+<h3 id=やられアプリ>やられアプリ</h3>
+<p><a href=https://techblog.securesky-tech.com/entry/2020/04/15/>Stored(蓄積型)-XSSの危険性</a><br>
+他にもOWASP webgoatやjuice shopなど、やられアプリで検索するとよい。</p>
+<h3 id=rawでhtmlを出力したいケースはどんなとき>RAWでHTMLを出力したいケースはどんなとき？</h3>
+<p><a href=https://qiita.com/Jxck_/items/ec8e928f69d099b25764>フレームワークに見る Web セキュリティ対策</a><br>
+Rubyのようにhtmlを整形して返すものはrawでhtmlを扱いたいケースがありそう。<br>
+具体的なサービスとして、markdownが書けるサービスがHTMLを受け入れるケース、 <a href=https://blog.microcms.io/input-richeditor-and-html/>microCMS</a> のようにAPIでHTMLが飛んできて、それを叩いて描画して自分のブログにしたいとき、などがある。</p>
+<h2 id=雑談>雑談</h2>
+<h3 id=bpf最近セキュリティでもアツい>BPF最近セキュリティでもアツい</h3>
+<p><a href=https://iototsecnews.jp/2022/05/12/bpfdoor-stealthy-linux-malware-bypasses-firewalls-for-remote-access/>BPFdoor バックドアの脅威：ファイアウォールをすり抜ける Linux マルウェアの詳細</a></p>
+<h3 id=pawnyable>pawnyable</h3>
+<p><a href=https://github.com/ptr-yudai/pawnyable>ptr-yudai/pawnyable</a></p>
+<p><a href=https://pawnyable.cafe/>https://pawnyable.cafe/</a></p>
+<blockquote>
+<p>Pawnyableはpwn(Binary Exploitation)を勉強するための資料です。既にある程度勉強済みの人が対象です。</p>
+</blockquote>
+<p>詳解セキュリティコンテストを読み終えてある程度初心者用問題解いたらこの資料が読み始められるところに達しそうなので詳解セキュリティコンテスト読み切りたいですね。VM escapeとか気になる。</p>
+</article>
+<footer>
+<p class=license>
+This document is licensed under
+<a href=https://creativecommons.org/licenses/by/4.0/ target=_blank rel="noopener noreferrer">CC-BY-4.0</a>
+</p>
+<p class=repository>
+Link to
+<a href=https://github.com/uta8a/scrap.docs target=_blank rel="noopener noreferrer">GitHub Repository</a>
+</p>
+</footer>
+</main>
+</body>
+</html>
