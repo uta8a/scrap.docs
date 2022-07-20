@@ -1,0 +1,57 @@
+<!doctype html><html lang=ja><head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<link rel=stylesheet href=/sass/main.min.87f827dfff5e923974e91a81f7dd7e1efae5c1ae18aea478ea157865c24b8363.css>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css integrity=sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB crossorigin=anonymous>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js integrity=sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous onload=renderMathInElement(document.body)></script>
+<script defer>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script>
+<script defer src=/js/prism.min.js></script>
+<link rel=stylesheet href=/css/prism.min.css>
+</head>
+<body>
+<main id=content>
+<p class=category>
+カテゴリー: <a href=/misc>misc</a>
+</p>
+<article class=suuri><h1 id=第6回詳解セキュリティコンテスト輪読会の記録>第6回詳解セキュリティコンテスト輪読会の記録</h1>
+<p>今回は p.157 - p.176が範囲。内容はSQL InjectionのはじめのSELECT文パート。</p>
+<h2 id=9章>9章</h2>
+<h2 id=サニタイズ>サニタイズ</h2>
+<p>以下のPyMySQLで使われるようなところは、変数がORMライブラリによるサニタイズ、もしくはプリペアードステートメントによるものどちらか分からないが、攻撃は成立しない。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=n>sql</span> <span class=o>=</span> <span class=s2>&#34;insert into kv (k,v) values(</span><span class=si>%s</span><span class=s2>, </span><span class=si>%s</span><span class=s2>);&#34;</span>
+</code></pre></div><h2 id=pythonの文字列>Pythonの文字列</h2>
+<p>Pythonは変数がダブルクオートでもシングルクオートでも文字列の挙動が同じ？</p>
+<p>ダブルクオートで囲わないといけない気持ちはbashからくる感覚かもしれない。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=s2>&#34;&#39;&#34;</span> <span class=c1># これはOK</span>
+
+<span class=s1>&#39;&#34;&#39;</span> <span class=c1># これもOK</span>
+
+<span class=sa>f</span><span class=s2>&#34;aaa&#39;&#34;</span> <span class=c1># これはOK</span>
+
+<span class=sa>f</span><span class=s1>&#39;aaa&#34;&#39;</span> <span class=c1># これもOK</span>
+</code></pre></div><h2 id=secretsデータベース名がわかっている>secretsデータベース名がわかっている</h2>
+<p>CTFの問題ではデータベース名を特定するところから始める必要がある。</p>
+<h2 id=エラーベースsqli>エラーベースSQLi</h2>
+<p>エラー文で環境の情報も分かってしまうので、発生したエラーをそのまま投げるのは良くない。</p>
+<h2 id=timeベースはwebだけではない>Timeベースはwebだけではない</h2>
+<p>revで、命令数ベースで深いネストに入っていることをperfを用いて判定することがあり、これも一種のTimeベースのように見做せる</p>
+<h2 id=sqliって問題作るの大変そう>SQLiって問題作るの大変そう</h2>
+<p>データベースが破壊されると困る、SLEEP使ってDoSされると困る、みんなの環境を分けないと、掲示板にFLAGがポンと出てくるとまずい。</p>
+<h2 id=second-order-sql-injection>Second Order SQL Injection</h2>
+<p>CTFの問題で、クエリログがDBに蓄積されてそのログを見に行くと色々情報が得られるタイプの問題があった</p>
+</article>
+<footer>
+<p class=license>
+This document is licensed under
+<a href=https://creativecommons.org/licenses/by/4.0/ target=_blank rel="noopener noreferrer">CC-BY-4.0</a>
+</p>
+<p class=repository>
+Link to
+<a href=https://github.com/uta8a/scrap.docs target=_blank rel="noopener noreferrer">GitHub Repository</a>
+</p>
+</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html><html lang=ja><head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<link rel=stylesheet href=/sass/main.min.87f827dfff5e923974e91a81f7dd7e1efae5c1ae18aea478ea157865c24b8363.css>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css integrity=sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB crossorigin=anonymous>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js integrity=sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous onload=renderMathInElement(document.body)></script>
+<script defer>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script>
+<script defer src=/js/prism.min.js></script>
+<link rel=stylesheet href=/css/prism.min.css>
+</head>
+<body>
+<main id=content>
+<p class=category>
+カテゴリー: <a href=/misc>misc</a>
+</p>
+<article class=suuri><h1 id=第5回詳解セキュリティコンテスト輪読会のメモ>第5回詳解セキュリティコンテスト輪読会のメモ</h1>
+<p>p.141 - p.155が範囲。内容としてはXSSのCSPパート</p>
+<p>僕は休んだので他の人が撮ってくれたメモを書いてます。</p>
+<h2 id=現実のwebサービスにはどの程度cspが設定されている>現実のwebサービスにはどの程度CSPが設定されている？</h2>
+<p>GitHub</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text>default-src &#39;none&#39;; base-uri &#39;self&#39;; block-all-mixed-content; child-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/; connect-src &#39;self&#39; uploads.github.com objects-origin.githubusercontent.com www.githubstatus.com collector.github.com raw.githubusercontent.com api.github.com github-cloud.s3.amazonaws.com github-production-repository-file-5c1aeb.s3.amazonaws.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com github-production-user-asset-6210df.s3.amazonaws.com cdn.optimizely.com logx.optimizely.com/v1/events *.actions.githubusercontent.com wss://*.actions.githubusercontent.com online.visualstudio.com/api/v1/locations github-production-repository-image-32fea6.s3.amazonaws.com github-production-release-asset-2e65be.s3.amazonaws.com insights.github.com wss://alive.github.com; font-src github.githubassets.com; form-action &#39;self&#39; github.com gist.github.com objects-origin.githubusercontent.com; frame-ancestors &#39;none&#39;; frame-src render.githubusercontent.com viewscreen.githubusercontent.com notebooks.githubusercontent.com; img-src &#39;self&#39; data: github.githubassets.com identicons.github.com github-cloud.s3.amazonaws.com secured-user-images.githubusercontent.com/ github-production-user-asset-6210df.s3.amazonaws.com *.githubusercontent.com; manifest-src &#39;self&#39;; media-src github.com user-images.githubusercontent.com/; script-src github.githubassets.com; style-src &#39;unsafe-inline&#39; github.githubassets.com; worker-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/
+</code></pre></div><p>QiitaにはCSP見当たらない</p>
+<h2 id=strict-dynamic>strict-dynamic</h2>
+<p>innerHTMLを操作するのは良いが、内容によってはだめ</p>
+<h2 id=script-gadget>Script Gadget</h2>
+<p><a href=https://techblog.securesky-tech.com/entry/2020/05/21/>CSP(コンテンツセキュリティポリシー)について調べてみた</a></p>
+<p>CTFのpwnのガジェットと似ている</p>
+<h2 id=dom-clobbering>DOM Clobbering</h2>
+<p>類題 <a href=https://tikicn.hatenablog.com/entry/2020/05/24/140117>ctf4b 2020 Somen</a></p>
+</article>
+<footer>
+<p class=license>
+This document is licensed under
+<a href=https://creativecommons.org/licenses/by/4.0/ target=_blank rel="noopener noreferrer">CC-BY-4.0</a>
+</p>
+<p class=repository>
+Link to
+<a href=https://github.com/uta8a/scrap.docs target=_blank rel="noopener noreferrer">GitHub Repository</a>
+</p>
+</footer>
+</main>
+</body>
+</html>
