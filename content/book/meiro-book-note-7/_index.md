@@ -34,3 +34,7 @@ NoSQLだと過去にMongoDBやRedisが出ている。
 ORMを使えば大抵の文字列結合は避けられるので安心だけど、go言語のORM, GORMには仕様通りの脆弱性、 [Gormにおける「仕様通り」なSQLインジェクションの恐れのある実装についての注意喚起](https://tech.andpad.co.jp/entry/2022/02/18/140000) がある。
 
 - [CPCTF22 Generate ORiginal Memo](https://trap.jp/post/1572/)
+
+## メモ
+
+Redisといえば、zer0pts ctf 2022で出題されたptr-yudaiさん作のlunatic問題 redis-lite がある。 [redis-lite](https://ptr-yudai.hatenablog.com/entry/2022/03/21/212054#redis-lite-3-solves)
