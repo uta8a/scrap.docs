@@ -38,3 +38,5 @@ ORMを使えば大抵の文字列結合は避けられるので安心だけど�
 ## メモ
 
 Redisといえば、zer0pts ctf 2022で出題されたptr-yudaiさん作のlunatic問題 redis-lite がある。 [redis-lite](https://ptr-yudai.hatenablog.com/entry/2022/03/21/212054#redis-lite-3-solves)
+
+WaniCTF spring 2021 にSQL Injectionの出題例があったのでホスティングの仕方が分かった [参考: wanictf Watch Animal](https://github.com/wani-hackase/wanictf21spring-writeup/tree/main/web/watch_animal)
