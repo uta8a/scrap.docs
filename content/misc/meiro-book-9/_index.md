@@ -8,6 +8,8 @@ changelog:
     date: 2022-08-14T18:37:43+09:00
   - summary: 完成
     date: 2022-08-14T20:48:19+09:00
+  - summary: 話題を追記
+    date: 2022-08-14T21:02:30+09:00
 ---
 
 # 第9回詳解セキュリティコンテスト輪読会の記録
@@ -57,3 +59,12 @@ lxmlモジュールの設定でDTDによる外部実体参照をしなければX
 
 - [SECCON 2020 Milk, Milk Revenge (hakatashiさん作)](https://tech.kusuwada.com/entry/2020/11/02/061455#section3)
 - [TokyoWesternsCTF 2019 j2x2j](https://st98.github.io/diary/posts/2019-09-14-tokyowesterns-ctf-5th-2019.html#j2x2j-web-59)
+
+## 話題
+
+セキュリティキャンプの話題や、DEFCONの季節なのでそういう話が出た。
+
+- [れっくすさんのCTF Radio #0: DEF CON CTF Finals 直前企画](https://youtu.be/GM5-xJnB5iw) DEFCONに出る人たちが現地でどういう感じなのかという話をする。結構CTF以外パート(ラスベガスの話)もあって楽しく聴けて面白い
+- [DEF CON LiveCTF 2022 - Day 1](https://www.youtube.com/watch?v=DCFlJWVBfkk&t=6047s) DEFCONのスピードランみたいなやつ？これにptr-yudaiさんが `./V /home/r/.bin/tw` 代表として出ている。画面も映されていて面白い。TSG LIVE! CTFでも一度ptr-yudaiさんの画面が映されたことがあった。
+
+来週からCryptoパートに入るのでdevcontainer作った。 [uta8a/crypto.devcontainer](https://github.com/uta8a/crypto.devcontainer) 本に書いてあるツール全部入りです。4GBもあるから減らしたいですね。
