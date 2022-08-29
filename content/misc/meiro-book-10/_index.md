@@ -1,0 +1,59 @@
+---
+layout: misc
+title: 第10回詳解セキュリティコンテスト輪読会の記録
+description: 輪読会の記録。
+draft: false
+changelog:
+  - summary: 見出し作成
+    date: 2022-08-28T17:48:34+09:00
+  - summary: 完成
+    date: 2022-08-29T12:04:39+09:00
+---
+
+# 第10回詳解セキュリティコンテスト輪読会の記録
+
+範囲: p.226 - p.251 その他のツール手前まで
+
+## Blind XXE
+
+よくある「エラーを通して情報を得る」パターン。エラー出力やログが表に出ないようにする・いらないならproductionでは切ってしまうように気をつけたい。
+
+今回stagerを介しているのはp.224にあるように、外部サブセットを検証しないという条件下であることが理由。
+
+## stager
+
+stagerはbinary exploitでシェルコードを書き込む場所の名称だったりと、他の分野でも用いられる用語。攻撃を成功させるステージを用意する時に使われる。
+
+## PHPのラッパー
+
+`scheme://...` の形式でschemeのところに `php` を入れられたりする(phpラッパー)
+
+ラッパーという言い方はPHP独特のよう？
+
+[PHPがサポートするプロトコル/ラッパー](https://www.php.net/manual/ja/wrappers.php) のなかで、pharはCTF文脈で見る [6-7. MySQL Client Attack Chain](https://graneed.hatenablog.com/entry/2019/12/29/115100#MySQL-Client-Attack-Chain)
+
+## 暗号
+
+暗号化の逆は復号(復号化とは言わない)
+
+情報理論的安全性とは、無限の計算能力を仮定しても暗号文から得られる情報が変わらないような暗号方式のこと。ワンタイムパッドや秘密分散、量子を用いた通信が該当する。
+
+## CTFの文脈
+
+- 公開サーバが必要になることがあるので、EC2インスタンスサッと立てられるようにしておくとよい(VPSなど、公開サーバが必要になることがある)
+- CTFではcryptoと別ジャンルの組み合わせが多い。CryptoとWeb(jwt)や、CryptoとRev(RC4のリバーシング)など。
+- PyCryptodomeはCryptoで特に言及なしに使用されるので覚えておこう
+
+## PKCSって何
+
+ワーキンググループの名前。 [wikipedia - PKCS](https://ja.wikipedia.org/wiki/PKCS)
+
+## SageMathは何をするもの？
+
+数学的な道具が一通り揃ったもの。群などの代数的な道具、楕円曲線などでCTFではお世話になることが多い。
+
+ルービックキューブのライブラリなんかもある [Rubik’s cube group functions](https://doc.sagemath.org/html/en/reference/groups/sage/groups/perm_gps/cubegroup.html)
+
+## 耐量子計算機暗号
+
+[耐量子計算機暗号と量子情報の数理](https://joint.imi.kyushu-u.ac.jp/post-5123/) というセミナーが量子についても触れられていてとてもいい。
