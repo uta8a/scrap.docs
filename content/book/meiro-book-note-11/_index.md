@@ -1,0 +1,37 @@
+---
+layout: book
+title: 詳解セキュリティコンテスト輪読会資料#11
+description: 輪読会第11回の資料
+draft: false
+changelog:
+  - summary: 見出し作成
+    date: 2022-09-07T18:20:07+09:00
+---
+
+# 詳解セキュリティコンテスト輪読会資料#11
+
+範囲: p.251 - p.268
+
+## ツール
+
+OpenSSL, PARI/GP, hashcat
+
+関係ないけど、CTFだと(特にPwnで)Proof of Workが求められることがある。サーバのリソースを大量に消費されるのを防ぐための工夫。ツールでなんとかなる場合が多いのでこういうのもツールとして覚えておくといいかも。
+
+- 参考: [pwnable challengeをホストする際にしていること](https://moraprogramming.hateblo.jp/entry/2020/12/21/232357): Proof of WorkをCTFで使うことがある
+- 参考: [ビットコイン論文からさぐる ブロックチェーンのヒント](https://www.ogis-ri.co.jp/otc/hiroba/technical/bitcoinpaper/part5.html): hashcashについて記述がある
+
+## ハッシュ関数
+
+keccak(SHA-3のもと)はケチャックと読むっぽい
+
+MD5の先頭0のやつとかはPHPのequalが弱いことを利用して出題される気がする [参考 b00t2root'19 EasyPHP](https://qiita.com/LorseKudos/items/ba975d126b0b32841f12#:~:text=%E3%81%93%E3%81%AE%E6%8C%87%E6%95%B0%E8%A1%A8%E8%A8%98%E3%81%A7%E3%81%AF0e%20%2B%20(%E6%95%B0%E5%80%A4)%E3%81%AF%E3%81%99%E3%81%B9%E3%81%A60%E3%81%AB%E3%81%AA%E3%82%8A%E3%81%BE%E3%81%99%E3%80%82%0A%E3%81%A4%E3%81%BE%E3%82%8A%E3%80%81MD5%E3%83%8F%E3%83%83%E3%82%B7%E3%83%A5%E5%80%A4%E3%81%8C0e%20%2B%20(%E6%95%B0%E5%80%A4)%E3%81%A8%E3%81%AA%E3%82%8B%E3%82%88%E3%81%86%E3%81%AA0e%20%2B%20(%E6%95%B0%E5%80%A4)%E3%81%AE%E5%BD%A2%E3%81%AE%E6%96%87%E5%AD%97%E5%88%97%E3%82%92%E6%8E%A2%E3%81%97%E3%81%BE%E3%81%99%E3%80%82%0A%E3%81%93%E3%81%A1%E3%82%89%E3%81%AE%E8%A8%98%E4%BA%8B%E3%81%8B%E3%82%89%E3%80%810e215962017%E3%81%8C%E8%A9%B2%E5%BD%93%E3%81%99%E3%82%8B%E3%82%88%E3%81%86%E3%81%A7%E3%81%99%E3%80%82)
+
+bcryptで思い出す記事: PHPのbcryptはバイナリセーフではない (参考: [bcryptの72文字制限をSHA-512ハッシュで回避する方式の注意点](https://blog.tokumaru.org/2019/02/caution-bcrypt-with-sha512.html)) 暗号の重ねがけは良くないことがあるという指摘
+
+Length Extension Attackは頻出な気がする。良い記事もたくさんある。
+
+- 参考: [Length Extension Attackの原理と実装](https://ptr-yudai.hatenablog.com/entry/2018/08/28/205129)
+- 参考: [CryptoCTF 2021 - Salt and Pepper](https://hackmd.io/@iPEQy3ZQTr6grRvwKbAWWw/ryQbvDQkF)
+
+マーケルダンガード変換に関する攻撃は内部構造をいじる必要がある: MD5やSHA-1の実装をとってくる必要が生じることがある(本書ではMD5自作をしている)
