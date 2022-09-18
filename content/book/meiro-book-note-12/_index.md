@@ -1,0 +1,135 @@
+---
+layout: book
+title: 詳解セキュリティコンテスト輪読会資料#12
+description: 輪読会第12回の資料
+draft: false
+changelog:
+  - summary: 見出し作成
+    date: 2022-09-18T10:18:38+09:00
+  - summary: 'S-DES以外完成'
+    date: 2022-09-18T17:44:18+09:00
+---
+
+# 詳解セキュリティコンテスト輪読会資料#12
+
+範囲: p.269 - p.280
+
+## S-DESを通じてブロック暗号を理解する
+
+**まだ未完成です**
+
+S-DESを解説
+
+DES, AES, 3-DESとの違いを書く
+
+まずは `generate_keys()`
+
+```python
+def generate_keys(K):
+    return 0,1
+
+if __name__ == '__main__':
+    K = 0b1111111111
+    K_1, K_2 = generate_keys(K) 
+    print(K_1, K_2)
+```
+
+できた。
+
+```python
+# https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/block_cipher/sdes.html#sage.crypto.block_cipher.sdes.SimplifiedDES.permutation8
+def permutation_8(key):
+    assert len(key) == 10  # len is 10
+    permuted = []
+    p8 = [5, 2, 6, 3, 7, 4, 9, 8]
+    for i in range(8):
+        permuted.append(key[p8[i]])
+    return permuted
+
+# https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/block_cipher/sdes.html#sage.crypto.block_cipher.sdes.SimplifiedDES.permutation10
+def permutation_10(key):
+    assert len(key) == 10
+    permuted = []
+    p10 = [2, 4, 1, 6, 3, 9, 0, 8, 7, 5]
+    for i in range(10):
+        permuted.append(key[p10[i]])
+    return permuted
+
+
+def shift_by_one(key):
+    assert len(key) >= 1
+    shifted = []
+    for i in range(len(key) - 1):
+        shifted.append(key[i+1])
+    shifted.append(key[0])
+    return shifted
+
+def generate_subkeys(K):
+    # permutation 10
+    p10 = permutation_10(K)
+    # split
+    left, right = p10[:5], p10[5:]
+    # left shift by 1
+    left = shift_by_one(left)
+    right = shift_by_one(right)
+    # permutation 8
+    k1 = permutation_8(left + right)
+    # left shift by 2
+    left = shift_by_one(left)
+    left = shift_by_one(left)
+    right = shift_by_one(right)
+    right = shift_by_one(right)
+    # permutation 8
+    k2 = permutation_8(left + right)
+    return k1, k2
+
+
+if __name__ == '__main__':
+    K = [1,0,1,1,0,1,1,0,0,1]
+    K_1, K_2 = generate_subkeys(K)
+    print(K_1, K_2)
+```
+
+## chacha20の解説
+
+[ChaCha20-Poly1305の解説と実装 - 晴耕雨読](https://tex2e.github.io/blog/crypto/chacha20poly1305) さすが晴耕雨読さんだ。これ読むと良さそう。
+
+## PKCS#? 系列を調べる
+
+[PKCS](https://ja.wikipedia.org/wiki/PKCS) は以前も話題に出たが、ワーキンググループの名前。
+
+#1 RSA標準
+#3 DH鍵共有標準
+#5 パスワードに基づく暗号化標準
+#7 PKIの元でメッセージをやりとりする (ここでpadding)
+#8 秘密鍵のフォーマット
+
+などバラバラだけど公開鍵関連の標準化をしている。
+
+## ブロック暗号の利用モードの色々と、実際使われているやつの解説
+
+ブロック暗号利用モード
+
+[(pdf) IPAによる調査 - ４.２.市販製品調査結果（調査B結果・暗号モジュール） 7．暗号利用モード](https://www.ipa.go.jp/files/000014262.pdf)
+
+CBC/CCM/CFB/CTR/CTS/GCM/OFB/XTS など、CBCが多い。
+
+bluetoothでは AES-CCMやCMACが使われてそう ref. [Bluetooth Mesh 仕様 – 3. Mesh networking（その５）](https://www.ingenious.jp/specifications/bluetooth-mesh/ble-mesh-ch03-05/)
+[TPM](https://ja.wikipedia.org/wiki/Trusted_Platform_Module) でもAES-OFB, CTRなどが使われてそう。
+
+## Pythonのgenerator
+
+Pythonの文脈でのイテレータとジェネレータの違いは？
+
+- [generator](https://docs.python.org/ja/3/glossary.html#term-generator) は [generator iterator](https://docs.python.org/ja/3/glossary.html#term-generator-iterator) を返す関数。
+  - generator iteratorはgenerator関数で生成されるオブジェクト。
+- [iterator](https://docs.python.org/ja/3/glossary.html#term-iterator) はデータの流れを表現するオブジェクト。 `__iter__` と `__next__` の2つのメソッドをサポートする。
+
+Iteratorの方が、generator iteratorより一般的な概念(どちらもオブジェクト)。
+
+ref. [Difference between Python's Generators and Iterators](https://stackoverflow.com/questions/2776829/difference-between-pythons-generators-and-iterators)
+
+## CTFの問題との関連
+
+- [線形解読法 traP nariさんのブログ](https://trap.jp/post/641/) まだ理解できてない
+- [Command SECCON Beginners CTF 2022](https://zenn.dev/hk_ilohas/articles/ctf4b2022-crypto#command-%5Beasy%5D) AESのbitflip. paddingについても考える必要がある。
