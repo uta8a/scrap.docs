@@ -1,0 +1,104 @@
+---
+layout: misc
+title: 'タスク管理'
+description: 'タスク管理ツールを作る過程で生じたことメモ'
+draft: false
+changelog:
+  - summary: 見出し作成
+    date: 2023-06-11T06:43:20+09:00
+---
+
+# タスク管理
+
+## 概要
+
+## 詳細
+
+### [Toggl API v9のメモ](https://developers.track.toggl.com/docs/api/projects/index.html#post-workspaceprojects)
+
+`billable` や `template` はfalseを指定していても402が返る。このプロパティが入っているとFreeプランだと弾かれる仕様らしい。
+
+デバッグはcurlで行った方がfetchで行うより楽
+
+あとstringとintegerの違いとかは厳しいので、環境変数として読み込んでいるならstringだからnumberに変換した方がいい。逆もそうで、数値はじまりだとnumberとみなされるので `invalid number` みたいなエラーが出る。`JSON.stringify(...)` を使って文字列にすると良い。
+
+### deno run test.js
+
+denoを用いてfetch部分だけ抜き出して動作確認をすると良い。以下のようなスクリプトを書く。tsでもnativeに動くのでts-nodeとか入れなくていいから楽。
+
+```js
+const res = await fetch(...);
+console.log(res)
+```
+
+### 正規表現
+
+- 数値1つ以上へのマッチは `\d+` でOK
+
+### [Structual Subtypingによる `Event`](https://zenn.dev/koduki/articles/0f8fcbc9a7485b)
+
+以下のような感じでHTMLEventに型をつけていくと良い
+
+```ts
+interface HTMLButtonEvent extends Event {
+  target: HTMLButtonElement;
+}
+```
+
+### Viteでのdefineによるグローバル変数定義が `cannot find name ...` になる
+
+[別issueに対する翠さんの返信](https://github.com/vitejs/vite/issues/6954#issuecomment-1186434895) が参考になった。
+
+`import.meta.env.FOO` を定義して、 `import.meta.env.FOO` に対して型をglobal.d.tsでつけておいてtsconfig.jsonで読み込むといい感じに使える
+ワークアラウンド感がある
+
+### ビルド時に環境変数を解決してリテラルを埋め込む
+
+Viteを使うとできる。[defineでグローバル定数を定義できる](https://v2.vitejs.dev/config/#define)
+
+環境変数が数値はじまりだと壊れるので `JSON.stringify` をかませる
+
+### envrc to json
+
+探した感じ、envrcをjsonに変換する方法はなかった。
+これは環境変数からsecrets.jsonを生成してそれを読み込みたいというもの。
+実際はViteのビルド時環境変数の定数化を利用して回避できた。
+
+### [chrome extensionのts化するチュートリアルが良かった](https://tech.revcomm.co.jp/build-chrome-extension-with-typescript)
+
+この記事で理解した。シンプルから開始してVite+TSまで育てていく構成。いきなりチュートリアルよりこっちの方が僕は合っている。
+
+### [GHAのechoは改行文字をエスケープする](https://gotohayato.com/content/558/)
+
+対策として以下のようにする。
+
+```sh
+echo "" >> hoge.txt
+echo "Hello" >> hoge.txt
+echo "Multiline" >> hoge.txt
+echo "" >> hoge.txt
+```
+
+### [github actionsでgit commitするならbotのemailを使う](https://qiita.com/thaim/items/3d1a4d09ec4a7d8844ce)
+
+マシンユーザとして `github-actions[bot]` を使用した。
+
+### [GHA ワークフロートリガーイベント](https://docs.github.com/ja/actions/using-workflows/events-that-trigger-workflows#repository_dispatch)
+
+思ったより色々トリガーできる
+`workflow_dispatch` を使用して外部からcurlで叩いて起動も可能
+その場合のPATは権限actions read/writeがあれば良い
+
+### autolinks
+
+GitHub proになるとautolinksという `UPJ-<num>` でリンク化してくれるやつが使えるようになる。
+
+## メモ
+
+## 関連する問題
+
+## 参考文献
+
+## 関連項目
+
+## 外部リンク
