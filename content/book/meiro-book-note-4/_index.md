@@ -64,8 +64,6 @@ poetry run python3 app.py
 
 - XSSの種類、3つ答えよ
 
-{{% details summary="解答" %}}
 - Reflected
 - Stored
 - DOM based
-{{% /details %}}

@@ -35,8 +35,6 @@ changelog:
 
 - 本書で登場したCSPのバイパス手法を3つ答えよ
 
-{{% details summary="解答" %}}
 - ホストからのガジェット組み立て
 - base-uriディレクティブの設定不備
 - DOM Clobbering
-{{% /details %}}
