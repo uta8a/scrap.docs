@@ -1,0 +1,36 @@
+{
+  "name": "daily-rust",
+  "description": "daily rust blog",
+  "version": "0.1.0",
+  "author": "Masanori Tani (a.k.a. uta8a)",
+  "homepage": "https://daily-rust.uta8a.net/",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview"
+  },
+  "devDependencies": {
+    "@astrojs/mdx": "^2.0.2",
+    "@astrojs/partytown": "^2.0.2",
+    "@astrojs/tailwind": "^5.0.4",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "accessible-astro-components": "^2.3.3",
+    "astro": "^4.0.7",
+    "astro-compress": "^2.0.6",
+    "astro-icon": "^0.7.3",
+    "eslint": "^8.33.0",
+    "eslint-plugin-astro": "^0.23.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "prettier": "^2.8.3",
+    "prettier-plugin-astro": "^0.8.0",
+    "prettier-plugin-tailwindcss": "^0.2.2",
+    "sass": "^1.49.9",
+    "svgo": "^2.8.0",
+    "tailwindcss": "^3.2.7"
+  },
+  "dependencies": {
+    "marked": "^11.1.1"
+  }
+}

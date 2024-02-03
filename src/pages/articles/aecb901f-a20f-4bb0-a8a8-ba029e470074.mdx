@@ -1,0 +1,125 @@
+---
+id: "aecb901f-a20f-4bb0-a8a8-ba029e470074"
+title: "2024-01-03"
+description: "Comprehensive Rustのドキュメントにリンクミスを発見して格闘"
+created_at: "2024-01-03T08:09:34+09:00"
+draft: false
+layout: "../../layouts/MarkdownLayout.astro"
+icon: "chart-line-variant"
+---
+
+{/* import */}
+
+import { Icon } from 'astro-icon'
+import { Notification } from 'accessible-astro-components'
+
+{/* content */}
+
+# 2024-01-03
+
+Comprehensive Rustの続き [Welcome - Comprehensive Rust 🦀](https://google.github.io/comprehensive-rust/welcome-day-1.html) から。
+
+Rust themeに変更した。
+
+## [Hello, World - Comprehensive Rust 🦀](https://google.github.io/comprehensive-rust/hello-world/hello-world.html)
+
+- リンク壊れてない？ Speaker Notesの https://google.github.io/comprehensive-rust/hello-world/basic-syntax/functions-interlude.html が404になってる。
+- [Hygiene - The Little Book of Rust Macros](https://veykril.github.io/tlborm/decl-macros/minutiae/hygiene.html) hygienicという用語があるらしい。マクロ周りの用語で直訳すると衛生的なという意味
+  - The Little Book of Rust Macros知らなかった
+
+リンクが壊れてる件をちょっと調べてみる。
+
+---
+
+手元に持ってきてビルドした
+
+`book/html` を眺める
+
+`basic-syntax/functions-interlude.html` はある。これはどうやらリダイレクトされているみたい。
+
+```html
+<body>
+    <p>Redirecting to... <a href="../control-flow-basics/functions.html">../control-flow-basics/functions.html</a>.</p>
+</body>
+```
+
+`../control-flow-basics/functions.html` だけど、そもそもリンクがこのリダイレクト先に行く前の段階で壊れてる。
+
+あーわかった。以下のhello-world.htmlのリンクが正確には `href="../basic-syntax/functions-interlude.html"` であるべきだ。
+
+```html
+<p>Rust uses macros for situations where you want to have a variable number of
+arguments (no function <a href="basic-syntax/functions-interlude.html">overloading</a>).</p>
+```
+
+手元で修正してみたらうまく行く。
+book.tomlでredirectが管理されているのでみる。
+
+```toml
+'basic-syntax/functions-interlude.html' = '../control-flow-basics/functions.html'
+```
+
+すでにあるな？
+なんで `http://URL/hello-world/basic-syntax/functions-interlude.html` になるんだろう
+
+あー、これいくつか解決策があるやつだ
+以下のような候補がある。
+
+- hello-world.mdの修正
+  - もはや直接 `[overloading](../control-flow-basics/functions.html)` にする
+  - これだと翻訳にも影響が出る。
+- book.tomlの修正
+  - これはリダイレクトの設定を変えることになる。
+  - `hello-world/basic-syntax/functions-interlude.html` を `control-flow-basics/functions.html` にリダイレクトする
+
+修正してみた
+
+```toml
+"hello-world/basic-syntax/functions-interlude.html" = "../basic-syntax/functions-interlude.html"
+```
+
+でもこれだと無限リダイレクトが発生する `Navigated to http://127.0.0.1:3000/hello-world/basic-syntax/functions-interlude.html`
+
+pathが間違っていた。
+
+```toml
+"hello-world/basic-syntax/functions-interlude.html" = "../../control-flow-basics/functions.html"
+```
+
+これでうまくいった。
+空気を読むと、v2のパスが `control-flow-basics` 系なので、v1へのリダイレクトに修正
+
+```toml
+"hello-world/basic-syntax/functions-interlude.html" = "../../basic-syntax/functions-interlude.html"
+```
+
+これでもうまく行く。
+
+説明を入れてPR出す。
+
+[CONTRIBUTING.md](https://github.com/google/comprehensive-rust/blob/main/CONTRIBUTING.md) を読む。
+
+- Formatting
+  - CI眺めてみる
+  - OK
+- testはかけてみてる
+  - 通った
+- CLAがある
+- 参考PR: [Fix `mdbook` redirection table by mgeisler · Pull Request #1567 · google/comprehensive-rust](https://github.com/google/comprehensive-rust/pull/1567)
+
+これくらいか。testは通った。
+aquaでglobalにdprintを入れて、 `dprint fmt` した。依存関係はREADMEに書いてあるのでaptで入れた。
+
+CLAにサインしたかったけど独自ドメインをGoogleアカウントに追加する段階でCloudflare Email RoutingからGmailへforwardingできない現象に遭遇
+https://community.cloudflare.com/t/email-routing-problem-to-gmail/384255/35
+
+めっちゃ時間かかって無理だということが分かった。
+
+CLAへはprimaryでないemailでサインを行った。
+
+PR出した。 https://github.com/google/comprehensive-rust/pull/1635
+
+---
+
+Rustの勉強から横道にそれてしまったけど、PR出せたのでよしとする。
+今日はここまで。
