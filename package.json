@@ -1,9 +1,9 @@
 {
-  "name": "daily-rust",
-  "description": "daily rust blog",
+  "name": "scrap",
+  "description": "scrap docs",
   "version": "0.1.0",
   "author": "Masanori Tani (a.k.a. uta8a)",
-  "homepage": "https://daily-rust.uta8a.net/",
+  "homepage": "https://scrap.docs.uta8a.net/",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

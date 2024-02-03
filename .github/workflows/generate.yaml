@@ -3,6 +3,11 @@ name: Add docs
 on:
   workflow_dispatch:
     inputs:
+      slug:
+        description: 'article slug'
+        required: true
+        default: 'directory-name'
+        type: string
       title:
         description: 'article title'
         required: true

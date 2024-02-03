@@ -15,7 +15,7 @@ const { slug } = Astro.props
       import.meta.env.MODE === 'development' && slug !== undefined && (
         <li class="menu-item">
           <a
-            href={`${import.meta.env.EDITOR_LINK}/${slug}.mdx`}
+            href={`${import.meta.env.EDITOR_LINK}/${slug}/index.mdx`}
             title="external link"
             rel="external noopener noreferrer"
           >
