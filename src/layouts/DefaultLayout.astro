@@ -25,6 +25,12 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <SiteMeta title={title} description={description.substring(0, 100)} url={url} image={image} author={author} />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+      integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"
+      crossorigin="anonymous"
+    />
   </head>
   <!-- auto scroll when devServer mode, see https://github.com/ritwickdey/vscode-live-server/issues/231 -->
   <body style={import.meta.env.MODE !== 'development' ? 'height: 100%;' : 'min-height: 100%;'}>
