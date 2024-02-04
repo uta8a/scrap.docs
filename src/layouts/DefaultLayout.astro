@@ -1,0 +1,116 @@
+---
+import '@astrojs/tailwind/base.css'
+import '../assets/scss/globals.scss'
+import SiteMeta from '../components/SiteMeta.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+
+const {
+  title = '雑メモ',
+  description = '雑にメモを書く',
+  url = Astro.site,
+  image = 'social-preview-image.png', // { Astro.site = https://example.com/ } + { image }
+  author = 'uta8a',
+  slug = undefined,
+} = Astro.props
+---
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <SiteMeta title={title} description={description.substring(0, 100)} url={url} image={image} author={author} />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css"
+      integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0"
+      crossorigin="anonymous"
+    />
+  </head>
+  <!-- auto scroll when devServer mode, see https://github.com/ritwickdey/vscode-live-server/issues/231 -->
+  <body style={import.meta.env.MODE !== 'development' ? 'height: 100%;' : 'min-height: 100%;'}>
+    <Header slug={slug} />
+    <main id="main-content" transition:animate="fade">
+      <slot />
+    </main>
+    <Footer />
+    <style lang="scss" is:global>
+      // theme settings
+      :root {
+        --radius-small: 3px;
+        --radius-large: 6px;
+        --gap-default: 2rem;
+        --font-measure: 70ch;
+        --font-family-default: sans-serif;
+        --font-family-special: sans-serif;
+        // light theme
+        --font-color: var(--neutral-900);
+        --action-color: var(--primary-300);
+        --action-color-state: var(--primary-500);
+        --background: var(--neutral-100);
+        --primary-background: var(--primary-100);
+        --neutral-background: var(--neutral-200);
+      }
+
+      // dark color scheme overrides
+      .darkmode {
+        --font-color: var(--neutral-100);
+        --action-color: var(--secondary-100);
+        --action-color-state: var(--secondary-500);
+        --background: var(--dark-100);
+        --primary-background: var(--primary-500);
+        --neutral-background: var(--neutral-900);
+      }
+
+      // sticky footer on low content pages
+      html,
+      body {
+        // specify height or min-height in html body style tag
+        // see https://github.com/ritwickdey/vscode-live-server/issues/231
+        overflow-x: hidden;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        color: var(--font-color);
+        background-color: var(--background);
+
+        main {
+          flex: 1 0 auto;
+        }
+
+        footer {
+          flex-shrink: 0;
+        }
+      }
+
+      pre {
+        padding: 1rem;
+        border-radius: 0.35rem;
+        border: 2px solid var(--action-color);
+      }
+
+      body .pagination a {
+        &:hover,
+        &:focus-visible {
+          background-color: var(--action-color-state);
+
+          svg path {
+            stroke: white;
+          }
+        }
+      }
+      .notification {
+        gap: 0.25rem;
+        padding: 0.75rem;
+        border-radius: 0.75rem;
+      }
+    </style>
+  </body>
+</html>

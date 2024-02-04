@@ -1,0 +1,119 @@
+---
+id: "5ec27320-c2f2-11ee-b7cd-1b3ae205f4d8"
+slug: "2022-06-13-meiro-book-2"
+title: "第2回詳解セキュリティコンテスト輪読会の記録"
+description: "輪読会の記録"
+created_at: "2022-06-13T05:35:37+09:00"
+draft: false
+layout: "../../../layouts/MarkdownLayout.astro"
+icon: "web-plus"
+---
+
+{/* import */}
+
+import { Icon } from 'astro-icon'
+import { Notification } from 'accessible-astro-components'
+
+{/* content */}
+
+# 第2回詳解セキュリティコンテスト輪読会の記録
+
+今回はdevtoolsとパケットとcookieの話題が中心でした。
+
+## 5章
+
+### web問でのCTFの形式
+
+revみたいにフラグがブラウザの中にあってそれを取り出すのが難しい場合がある。また、問題の形式としてはサーバとクライアントという見方をすると、通信を行うrev問(game cheat問)と近い部分もある
+
+### webサービスで注意すること
+
+新機能、よく突然のメンテナンスモードに入るサイト、フレームワークを使っていないサイトなどは十分なテストがされていないのでバグや脆弱性を含みやすいので注意。
+バグバウンティでも新機能に賞金級のバグが見つかっているのを見かけるし、たとえばTwitterのfleetはリリース当時色々バグがあって話題になった。(CDNにフリートの内容が残るとか、[RyotaKさんのTwitterのフリート機能に対する権限昇格](https://blog.ryotak.me/post/twitter-privesc/)とか)
+
+## 6章前半
+
+### HTTP周り
+
+#### cookieの話: HttpOnly
+
+HttpOnlyならOK！というイメージがあったが、そうでもない。徳丸さんのYoutubeが分かりやすい。 [参考 - クロスサイトスクリプティング(XSS)対策としてCookieのHttpOnly属性でどこまで安全になるのか](https://youtu.be/4JREwhSC2dQ)
+Secure属性もつけていても脆弱になるケースがあるらしい。
+
+Cookie関連
+[参考 - IPA: 経路のセキュリティと同時にセキュアなセッション管理を](https://www.ipa.go.jp/security/ciadr/20030808cookie-secure.html)
+[参考 - CookieのDomain属性は *指定しない* が一番安全](https://blog.tokumaru.org/2011/10/cookiedomain.html)
+
+#### cookieと広告の話
+
+FLOCはTopics APIに代わって、これから広告屋さんにとってはつらい時代が来そう。
+ポイントサイトとかを見ると、ブラウザを閉じないでください、など事情が分かっていると面白い文言がある。(サードパーティcookieを消さないように色々注意をしている)
+
+#### CDNとキャッシュ
+
+CDNとキャッシュ周りの設定は難しい [参考 - CDN切り替え作業における、Web版メルカリの個人情報流出の原因につきまして](https://engineering.mercari.com/blog/entry/2017-06-22-204500/)
+
+#### URL
+
+`http://username:password@localhost` のようにしてローカルホストのBasic認証付きアプリケーションにアクセスできる。
+これは `http://example.com@evil.example` のようにすることで、見た目はexample.comだけどevil.exampleに飛ばせるような見間違いを誘発するURLが作れそうで気をつけないととなった [参考 - RFC 3986 の Semantic Attacks](https://datatracker.ietf.org/doc/html/rfc3986#section-7.6)
+
+#### QUICやパケットキャプチャ
+
+QUICが気になって調べたが難しい。以下良さそうな資料
+
+- voluntasさんのQUICに関する勉強ルートについて
+
+> QUIC 勉強したい人はまず TLS 1.3 から入らないと QUIC の RFC が何言ってるかわからないと思う。順番としては TLS 1.2 (RFC 5246) -> TLS 1.3 (RFC 8446) -> QUIC TLS (RFC 9001) -> QUIC (RFC 9000) になると思う。
+> https://twitter.com/voluntas/status/1404656930849652738
+
+- SSL/TLSを学ぶには [プロフェッショナルSSL/TLS](https://www.lambdanote.com/products/tls) が良さそう
+- IIJ Engineers Blog [QUICをゆっくり解説 – 新しいインターネット通信規格](https://eng-blog.iij.ad.jp/quic)
+- herumiさんの [イラストで正しく理解するTLS 1.3の暗号技術](https://zenn.dev/herumi/articles/tls1_3_crypto)
+- [TLS1.3の中身をみよう（RFC8448）](https://zenn.dev/0a24/articles/tls1_3-rfc8448)
+
+後はRFCやwiresharkで実際にパケットを見ながら調べると良さそう。
+TLS1.3を理解するにはTLS1.2を理解してから取り組むとよい。
+
+#### パケット関連: Racoon Attack
+
+TLS1.2とそれ以前で発生する脆弱性 [Racoon Attack](https://raccoon-attack.com/) はタイミング攻撃っぽい？ので実際に実現させるのは結構難しいのでは。
+
+#### パケット関連: scapy
+
+[Scapy](https://scapy.net/)というPythonライブラリがある。wiresharkなどで当たりをつけてからscapyでfilterや抽出、パケット生成などの取り扱いを自動化すると便利そう。
+
+[サイバーセキュリティプログラミング](https://www.oreilly.co.jp/books/9784873119731/) でscapyを使うのでパケットを扱うプログラミングに慣れることができておすすめ
+
+scapyを使ったwriteup [参考 - writeup: [Forensics]illegal image[Hard]](https://tan.hatenadiary.jp/entry/2021/05/02/234916#Forensicsillegal-imageHard)
+
+### HTMLやXMLなど
+
+ここは特になし。CSS InjectionやXXEは後半で詳しく触れられている。
+
+### Webクライアント(devtools, python, js)
+
+#### devtoolsでお気に入りの機能はなんですか？
+
+- networkタブ: サーバとクライアントの通信が見れるのでついつい眺めてしまう。filterできたり、curlやfetchの形式で右クリックでcopyできるのも良い。
+- animationタブ: CSS Animationの一時停止や最後の状態を見るとか逆再生がシークバー動かすことでできる
+- JS breakpointは使ったことないけど難読化JSで使えそう
+
+#### wasmのチート問
+
+CTFの問題的に、難読化JSからwasm問にトレンドが移っている？Wasmで使えそうなCheat Engine的なブラウザ拡張
+
+> そのWebAssemblyのチート問ですが、問題中で紹介されていたCetus(https://github.com/Qwokka/Cetus)というWebAssembly向けのCheat Engine的なブラウザ拡張を使って解きました
+> https://twitter.com/st98_/status/1265749997624033280
+
+#### Twitterのcookie
+
+Twitterのcookieを眺めると、他の人に知られてはいけなさそうなものの他に、単なるクライアントの情報として知られても良さそうなもの(`lang: ja` など)もある
+cookieは全てが機密情報というわけではない。
+ただ、auth-token, auth-multi, kdt(おそらくログイン状態のトラッキング？)についてはHttpOnly属性とSecure属性がついていたので他の人に知られてはいけない感じがする。
+
+#### JSのPromise
+
+非同期処理が初めてだったのでPromise周りを調べた。
+fetch APIはPromiseオブジェクトを返却し、非同期処理は定期的にイベントが完了したか問い合わせることで実現されている。(非同期処理には色々な実現方法があり、そのうちの一つをJavaScriptは採用している)
+

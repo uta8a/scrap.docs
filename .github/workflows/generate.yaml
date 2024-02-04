@@ -1,0 +1,47 @@
+name: Add docs
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'article slug'
+        required: true
+        default: 'directory-name'
+        type: string
+      title:
+        description: 'article title'
+        required: true
+        default: 'new article'
+        type: string
+      description:
+        description: 'article description'
+        required: true
+        default: 'description'
+        type: string
+
+jobs:
+  add_docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate docs
+        env:
+          TITLE: ${{ inputs.title }}
+          DESCRIPTION: ${{ inputs.description }}
+          TZ: "Asia/Tokyo"
+        run: bash -c ./_scripts/add-docs.sh
+      - name: Git push
+        env:
+          TITLE: ${{ inputs.title }}
+        run: |
+          git remote set-url origin https://github-actions:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -N .
+          if (git diff --shortstat | grep '[0-9]'); then \
+            git add .; \
+            git commit -m "[bot] make new blank docs $TITLE"; \
+            git pull --rebase; \
+            git push origin HEAD:${GITHUB_REF}; \
+          fi

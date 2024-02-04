@@ -1,0 +1,39 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import Feature from '../components/Feature.astro'
+const articles = await Astro.glob('./articles/**/index.mdx')
+---
+
+<DefaultLayout title="Home">
+  <section class="my-10">
+    <div class="container">
+      <h2 class="mb-10 text-5xl">雑メモ</h2>
+      <p class="mb-10">雑にメモを残します。URLは変わることがあります</p>
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+        {
+          articles.sort((a, b) => {
+            // sort by created_at
+            const diff =
+              new Date(a.frontmatter.created_at) === new Date(b.frontmatter.creaated_at)
+                ? 0
+                : new Date(a.frontmatter.created_at) > new Date(b.frontmatter.created_at)
+                ? -1
+                : 1
+            return diff
+          }) &&
+            articles.map((article) => {
+              return (
+                <Feature
+                  icon={`mdi:${article.frontmatter.icon}`}
+                  title={`${article.frontmatter.title}`}
+                  id={article.frontmatter.slug}
+                >
+                  {article.frontmatter.description}
+                </Feature>
+              )
+            })
+        }
+      </div>
+    </div>
+  </section>
+</DefaultLayout>

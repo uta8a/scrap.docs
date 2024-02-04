@@ -1,0 +1,44 @@
+---
+id: "5ec35d80-c2f2-11ee-b7cd-1b3ae205f4d8"
+slug: "2022-08-28-meiro-book-note-10"
+title: "詳解セキュリティコンテスト輪読会資料#10"
+description: "輪読会第10回の資料"
+created_at: "2022-08-28T17:29:12+09:00"
+draft: false
+layout: "../../../layouts/MarkdownLayout.astro"
+icon: "format-align-justify"
+---
+
+{/* import */}
+
+import { Icon } from 'astro-icon'
+import { Notification } from 'accessible-astro-components'
+
+{/* content */}
+
+# 詳解セキュリティコンテスト輪読会資料#10
+
+範囲: p.226 - p.251 その他のツール手前まで
+
+## XXE
+
+XXEがどういう条件で成立するかちょっと複雑なので整理する。
+
+- ユーザ入力値がレスポンスに出力されない → Blind XXE
+  - 内部エラー出力がある → ファイルの内容を読み出せる(改行があっても可能)
+  - 内部エラー出力がなく、ネットワークアクセスが発生する → ファイルデータをURLに含めて外部ネットワークアクセスを発生させて、待ち受けたところでURLの一部として読み出す(改行があると厳しい、この辺りはプログラミング言語やXMLパーサの実装依存)
+
+PHPの場合は特別で、色々できる(phpラッパーのfilter, expectラッパーの任意コード実行)
+
+## 暗号
+
+普通の暗号の教科書と比較してみる
+
+- ゼロ知識証明の話題がない
+- 安全性証明の話題がない(CTFなのでそれはそう)
+- 最新の色々な話題がない(秘密分散、格子など) → 一部はCTFでも登場する
+
+CTFではPyCryptodomeは言及なしに使用される。
+
+おすすめ [CryptoHack](https://cryptohack.org/) (僕はまだちょっとしか手をつけてない)
+

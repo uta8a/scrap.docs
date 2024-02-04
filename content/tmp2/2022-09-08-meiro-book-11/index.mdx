@@ -1,0 +1,112 @@
+---
+id: "5ec1d6e0-c2f2-11ee-b7cd-1b3ae205f4d8"
+slug: "2022-09-08-meiro-book-11"
+title: "第11回詳解セキュリティコンテスト輪読会の記録"
+description: "輪読会の記録。"
+created_at: "2022-09-08T18:07:48+09:00"
+draft: false
+layout: "../../../layouts/MarkdownLayout.astro"
+icon: "application-braces-outline"
+---
+
+{/* import */}
+
+import { Icon } from 'astro-icon'
+import { Notification } from 'accessible-astro-components'
+
+{/* content */}
+
+# 第11回詳解セキュリティコンテスト輪読会の記録
+
+範囲: p.251 - p.268
+
+## opensslのRSA
+
+```text
+$ openssl rsautl -encrypt -inkey test.pub -pubin -in plaintext > ciphertext
+
+$ openssl rsautl -encrypt -inkey test.pub -pubin -in plaintext > ciphertext2
+
+$ hexdump ciphertext
+0000000 369e c6ea 2891 ac21 7747 1361 5710 b53b
+0000010 8e18 47f7 3fd6 25a8 e64e d6ad 6556 008b
+0000020 cf2e 3081 ed56 5e64 6214 9b73 85c9 db10
+0000030 8e62 bd7c df47 f16e ede8 701c 6bc6 90e9
+0000040 89ad 2a64 841b d2d2 3604 f07f d5af 6c24
+0000050 2c0e 4501 ec0d 8e11 99dc 84ed 0c54 8f62
+0000060 fff5 a976 c75c 0255 1c6d ab75 9e7e 0b55
+0000070 554f db61 4a38 1dcf 302b b71e a8ce 80aa
+0000080
+
+$ hexdump ciphertext2
+0000000 911f 6146 09e6 27a9 7049 6e5d 8a17 1088
+0000010 db68 25d1 203e 6a82 e6a8 84e8 040f a721
+0000020 5b7c a405 118f 0ee3 9490 51dd 9f1c ab1b
+0000030 3a04 e168 0cb8 2600 f80d bbd2 9c08 9454
+0000040 f465 fa35 aff0 556a f83e ea62 8dc4 722e
+0000050 13c3 4af6 23f8 eae3 d583 e5b8 37af ba21
+0000060 bb94 d0bb 4eee 1749 6761 c080 7fec 29a4
+0000070 cc1d be48 fdad 34db e87e 8f1f b369 8a54
+0000080
+
+$ openssl rsautl -decrypt -inkey test.key -in ciphertext
+helloworld
+
+$ openssl rsautl -decrypt -inkey test.key -in ciphertext2
+helloworld
+```
+
+上のように、ciphertextをRSAで同じ手順で作っても違う暗号文になる。これは [RSA-OAEP暗号](https://zenn.dev/taukon/articles/03f17e48f97564#rsa-oaep%E6%9A%97%E5%8F%B7%E3%81%AE%E6%9A%97%E5%8F%B7%E5%8C%96) を使っているから。
+
+乱数はどこに保存されているのか？という話が出たが、乱数の情報はciphertextに含まれているようだ。
+
+## gitのコミットにSHA-1が使われている
+
+gitのコミットハッシュはSHA-1。
+SHA-1は一般的に非推奨でSHA-2(SHA-256)への移行が推奨されている。
+しかし、gitに関してはコミットハッシュはコミットのIDとして使われているのでそれほど問題ではなさそう。 参考: [さようならSHA-1](https://zenn.dev/spiegel/articles/20201025-sayonara-sha1)
+
+[SHA-1の衝突問題、Gitへの影響についてトーバルズ氏の見方は](https://japan.zdnet.com/article/35097283/) でも、
+
+> （1）第1に、これは世界の終わりではない。セキュリティのためのデジタル署名のようなものに暗号ハッシュを使用するのと、gitのように、連想記憶システムの「コンテンツを識別する値」を生成するために使用するのとでは大きな違いがある。
+> （2）第2に、今回のSHA-1を用いた攻撃の性質が意味するところは、これを緩和することが実際には非常に容易であるということであり、すでに緩和のためのパッチが2件公開されている。
+> （3）また最後に、実際に十分に明快で、世界に（また古いgitリポジトリにも）大きな影響を与えない別のハッシュ関数への移行がすでに存在する。
+
+とある。また、git v2.29からSHA-2がサポートされている。
+
+## PoWについて
+
+ブロックチェーンで現在のPoWはどのくらい計算させているのか？→基本的に10分くらいの計算資源を要求しているはず。
+
+"直前のブロックのハッシュ値 + 今回のブロックに含まれる全取引データ + nonce" が64桁のハッシュ値になり、その先頭16桁(64bit？)がすべて0になるnonce値を探すことになっている 参考: [今のうちにビットコインをおさらいする](https://sinlab.future-tech-association.org/blogs/bitcoin-osarai-p2/)
+
+Bitcoinだと二重のSHA-256を使っている。
+
+ちなみに二重のSHA-256で先頭20bitが0になるのは一般的なPCで数十秒くらいかかる。
+
+## PoWの先頭が0のを探すのはなぜ？
+
+先頭何個かが0というのは、つまりある値x以下のハッシュを探せばいいという問題に置き換えられるので、先頭何個かが3のを探すよりずっと計算しやすいからなのでは？という説
+
+## Length Extension Attack
+
+saltが後ろにつく場合だとLength Extension Attackは成立しない。前にsaltがついているので前回のhashが再利用できていけるという原理のよう。
+
+ここあやふやになっていたので復習しておきたい。
+
+参考: [Length Extension Attackの原理と実装](https://ptr-yudai.hatenablog.com/entry/2018/08/28/205129)
+
+## bcryptで思い出す記事
+
+PHPのbcryptはバイナリセーフではない (参考: [bcryptの72文字制限をSHA-512ハッシュで回避する方式の注意点](https://blog.tokumaru.org/2019/02/caution-bcrypt-with-sha512.html)) 暗号の重ねがけは良くないことがあるという指摘
+
+## md5ハッシュと雀魂
+
+[雀魂には牌操作は一切ナシ！！それを証明できるMD5ハッシュ検証システムの仕組みを解説します](https://mahjongsoul.info/no_haisousa/)
+
+このシステムを使って予測できないかと思ったが計算量的に無理そうという結論に。
+
+## CakeCTF楽しかったですね
+
+CakeCTFにみんな出ていた。解けなくても楽しい、学びのある問題しかなくてほんとすごい。
+

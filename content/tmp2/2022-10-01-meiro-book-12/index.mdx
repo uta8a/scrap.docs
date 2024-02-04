@@ -1,0 +1,55 @@
+---
+id: "5ec1fdf0-c2f2-11ee-b7cd-1b3ae205f4d8"
+slug: "2022-10-01-meiro-book-12"
+title: "第12回詳解セキュリティコンテスト輪読会の記録"
+description: "輪読会記録"
+created_at: "2022-10-01T09:38:32+09:00"
+draft: false
+layout: "../../../layouts/MarkdownLayout.astro"
+icon: "fan-speed-2"
+---
+
+{/* import */}
+
+import { Icon } from 'astro-icon'
+import { Notification } from 'accessible-astro-components'
+
+{/* content */}
+
+# 第12回詳解セキュリティコンテスト輪読会の記録
+
+範囲: p.269 - p.280
+
+## S-DES
+
+S-DESという教育用のDESを簡単にしたものがある。これを題材に差分攻撃とかを解説している論文がある。
+
+## AES
+
+- TLS1.3ではAES-CBCが廃止されるらしい [参考: SSL/TLSとは何なんだ？ 今こそ知ってもらいたいSSL/TLSのお話 〜 2回目 〜 TLS1.3 HTTP/2 のお話](https://knowledge.sakura.ad.jp/21470/#i-8)
+- [AESの実装を解説しているkurenaifさんの動画](https://www.youtube.com/watch?v=Lr37P_kew2Y&ab_channel=kurenaif) 良さそう。
+- CTRモードのNonce値について
+  - CTRモードはnonceとcounterが分かると復号できる。 `Crypto.Cipher.new()` では乱数がデフォルトで使われる。
+
+## Padding Oracle Attack
+
+[参考: Padding Oracle Attack 分かりやすく解説したい](https://partender810.hatenablog.com/entry/2021/06/08/225105)
+
+## bitflip
+
+[ctftimeで例題探した: More Cookies](https://ctftime.org/writeup/27021)
+
+[AES-GCM(Counterモード + MACタグ)](https://ja.wikipedia.org/wiki/Galois/Counter_Mode)ではタグの長さを検証しないとまずい。
+この事実を利用した問題 [cakectf2022 hi yoshiking](https://furutsuki.hatenablog.com/entry/2022/09/05/000733#hi-yoshiking)
+
+## その他
+
+- chacha20の解説は [晴耕雨読](https://tex2e.github.io/blog/crypto/chacha20poly1305) さんの記事が詳しい。
+- PKCS系列は、#7でPKIの元でメッセージをやり取りする方式が定義されていて、この中でパディングの話が出てくる。
+
+## 感想
+
+- 暗号方式についてふわっとした理解しかできてないので、S-DESのような教育用の簡単な暗号から実装して理解したい。
+- なぜS-Boxを噛ませているのか？変換表が公開されていて逆変換もあるなら安全性に寄与しない気がする？(Substitutionフェーズがあってもなくても安全性変わらないのでは？)
+- 良いS-Boxとは？
+

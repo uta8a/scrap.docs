@@ -1,0 +1,13 @@
+---
+import DefaultLayout from './DefaultLayout.astro'
+
+const { slug, title, description } = Astro.props.frontmatter
+---
+
+<DefaultLayout title={title} slug={slug} description={description} url={`${Astro.site}articles/${slug}`}>
+  <div class="container">
+    <div class="space-content my-12 px-20">
+      <slot />
+    </div>
+  </div>
+</DefaultLayout>
