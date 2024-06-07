@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-# Inputs: $TITLE, $DESCRIPTION, $SLUG
+# Inputs: $title, $description, $slug
 
 mkdir -p src/pages/articles
 
@@ -11,12 +11,12 @@ RANDOM_ICON=$(jq -r --arg rand $RANDOM --argjson arr $(cat ./_scripts/data.json)
 
 ID=$(uuidgen)
 
-cat <<EOF > src/pages/articles/$SLUG/index.mdx
+cat <<EOF > src/pages/articles/$slug/index.mdx
 ---
 id: "$ID"
-slug: "$SLUG"
-title: "$(echo $TITLE | sed 's#\"#\\\"#g')"
-description: "$(echo $DESCRIPTION | sed 's#\"#\\\"#g')"
+slug: "$slug"
+title: "$(echo $title | sed 's#\"#\\\"#g')"
+description: "$(echo $description | sed 's#\"#\\\"#g')"
 created_at: "$(date --iso-8601=seconds)"
 draft: false
 layout: "../../../layouts/MarkdownLayout.astro"
@@ -30,7 +30,7 @@ import { Notification } from 'accessible-astro-components'
 
 {/* content */}
 
-# $TITLE
+# $title
 
 
 EOF
