@@ -11,6 +11,8 @@ RANDOM_ICON=$(jq -r --arg rand $RANDOM --argjson arr $(cat ./_scripts/data.json)
 
 ID=$(uuidgen)
 
+mkdir -p src/pages/articles/$SLUG
+
 cat <<EOF > src/pages/articles/$SLUG/index.mdx
 ---
 id: "$ID"
