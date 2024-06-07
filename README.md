@@ -18,5 +18,5 @@ pnpm run dev
 
 ## メモ
 
-- image pathは `../../assets/img/` から始めるようにして、画像は全記事通して `<number>.ext` の形で管理
+- image pathは `../../../assets/img/` から始めるようにして、画像は全記事通して `<number>.ext` の形で管理
   - 配置は `src/assets/img/`
